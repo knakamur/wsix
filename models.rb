@@ -1,4 +1,5 @@
 require 'md5'
+require 'base64'
 
 class Racer
   include DataMapper::Resource
@@ -27,7 +28,7 @@ class Racer
   property :shirt_size,       String, :length => 2
 
   def session_id
-    MD5.hexdigest(id + email + password_salt)
+    MD5.hexdigest(id.to_s + email + password_salt)
   end
 
   def self.find_by_session_id(sid)
@@ -36,12 +37,21 @@ class Racer
 
 end
 
-class Session
-  include DataMapper::Resource
-
-  property :id, Serial
-  property :_session_id, String, :length => 255
-  property :session_data, Text
-end
+#class DbSession
+#  include DataMapper::Resource
+#
+#  property :_session_id, String, :length => 255, :key => true
+#  property :session_data, Text
+#
+#  alias_method :original_session_data=, :session_data=
+#  alias_method :original_session_data,  :session_data
+#  def session_data=(data)
+#    self.original_session_data = Base64.encode64(Marshal.dump(data))
+#  end
+#  def session_data
+#    Marshal.load(Base64.decode64(self.original_session_data))
+#  end
+#
+#end
 
 DataMapper.auto_migrate!

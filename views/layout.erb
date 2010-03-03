@@ -16,6 +16,9 @@
     <div id="copy">
       &copy; 20<span class="ten" onmouseover="toggle(true);" onmouseout="toggle(false);">10</span>
       portla<span class="nutria">N</span>d <span class="nutria">U</span>ni<span class="nutria">T</span>ed messenge<span class="nutria">R</span> assoc<span class="nutria">IA</span>tion
+      <% if @racer %>
+        <br/>you are logged in as <%= @racer.name %> &lt;<%= @racer.email %>&gt;
+      <% end %>
     </div>
 
   </body>

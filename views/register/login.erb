@@ -1,0 +1,41 @@
+<script type="text/javascript" src="/js/md5-min.js"></script>
+<script type="text/javascript">
+  //<![CDATA[
+  function submitDance(theForm) {
+    theForm.password_hash.value =
+      hex_md5(theForm.password.value + theForm.password_salt.value);
+    return true;
+  }
+  //]]>
+</script>
+
+<div id="form">
+
+  <span class="errors" id="errors"><%= @errors %></span>
+
+  <form action="/register/login" method="post" name="login" onsubmit="return submitDance(this);">
+
+    <table>
+
+      <tr>
+        <th>email address: </th>
+        <td><%= @racer.email %></td>
+      </tr>
+
+      <tr>
+        <th>password: </th>
+        <td><input type="password" name="password"></td>
+      </tr>
+          
+      <tr>
+        <th colspan="2"><input type="submit" value="login"></th>
+      </tr>
+
+    </table>
+
+    <input type="hidden" name="password_hash" value="">
+    <input type="hidden" name="password_salt" value="<%= @racer.password_salt %>">
+
+  </form>
+
+</div>

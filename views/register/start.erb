@@ -1,46 +1,125 @@
 <script type="text/javascript" src="/js/md5-min.js"></script>
 <script type="text/javascript">
   //<![CDATA[
-  function submitDance() {
-    var pws = document.getElementById("password_string").value;
-    alert(pws);
-    var pwh = hex_md5(pws + "<%= @password_salt %>");
-    alert(pwh);
+  function submitDance(theForm) {
+    if (!(validate(theForm))) {
+      return false;
+    }
+    theForm.password_hash.value =
+      hex_md5(theForm.password.value + theForm.password_salt.value);
+    return true;
   }
+
+  function validate(theForm) {
+    var valid = true;
+    var errorSpan = document.getElementById("errors");
+    var errorBuf = "";
+
+    // check email address
+    if (!(isRFC822ValidEmail(theForm.email.value))) {
+      valid = false;
+      errorBuf = errorBuf + "<b>email address</b> is not valid.<br/>";
+    }
+
+    // check password
+    if (!(theForm.password.value.length >= 6)) {
+      valid = false;
+      errorBuf = errorBuf + "<b>password</b> is not long enough (needs 6 or more).<br/>";
+    }
+
+    // check confirmation matches password
+    if (theForm.pw_conf.value != theForm.password.value) {
+      valid = false;
+      errorBuf = errorBuf + "<b>passwords</b> don't match.<br/>";
+    }
+
+    if (valid) { 
+      errorSpan.innerHTML = "";
+    } else {
+      errorSpan.innerHTML = errorBuf;
+    }
+    return valid;
+  }
+
+  // thanks to rosskendall.com
+  function isRFC822ValidEmail(sEmail) {
+
+    var sQtext = '[^\\x0d\\x22\\x5c\\x80-\\xff]';
+    var sDtext = '[^\\x0d\\x5b-\\x5d\\x80-\\xff]';
+    var sAtom = '[^\\x00-\\x20\\x22\\x28\\x29\\x2c\\x2e\\x3a-\\x3c\\x3e\\x40\\x5b-\\x5d\\x7f-\\xff]+';
+    var sQuotedPair = '\\x5c[\\x00-\\x7f]';
+    var sDomainLiteral = '\\x5b(' + sDtext + '|' + sQuotedPair + ')*\\x5d';
+    var sQuotedString = '\\x22(' + sQtext + '|' + sQuotedPair + ')*\\x22';
+    var sDomain_ref = sAtom;
+    var sSubDomain = '(' + sDomain_ref + '|' + sDomainLiteral + ')';
+    var sWord = '(' + sAtom + '|' + sQuotedString + ')';
+    var sDomain = sSubDomain + '(\\x2e' + sSubDomain + ')*';
+    var sLocalPart = sWord + '(\\x2e' + sWord + ')*';
+    var sAddrSpec = sLocalPart + '\\x40' + sDomain; // complete RFC822 email address spec
+    var sValidEmail = '^' + sAddrSpec + '$'; // as whole string
+    
+    var reValidEmail = new RegExp(sValidEmail);
+    
+    if (reValidEmail.test(sEmail)) {
+      return true;
+    }
+    
+    return false;
+  }
+
   //]]>
 </script>
 
-<form action="/register/start" method="post" onsubmit="submitDance(this);">
+<div id="form">
 
-  <table>
+  <p>we want you to come to portland and have fun.
+  to do so, fill in the things...
+  there's a few steps, don't worry: it's easy.</p>
 
-    <tr>
-      <th>email address: </th>
-      <td>
-        <input type="text" name="email"></input>
-      </td>
-    </tr>
+  <span class="errors" id="errors"><%= @errors %></span>
 
-    <tr>
-      <th>password thing: </th>
-      <td>
-        <input type="password" name="password"></input>
-      </td>
-    </tr>
+  <form name="registerStart" action="/register/start" method="post" onsubmit="return submitDance(this);">
 
-    <tr>
-      <th>password again: </th>
-      <td>
-        <input type="password" name="pw_conf"></input>
-      </td>
-    </tr>
+    <table>
 
-    <tr>
-      <th colspan="2">
-        <input type="submit" value="start registration!"></input>
-      </th>
-    </tr>
+      <tr>
+        <th>email address: </th>
+        <td>
+          <input type="text" name="email">
+        </td>
+      </tr>
 
-  </table>
+      <tr>
+        <th>password thing: </th>
+        <td>
+          <input type="password" name="password">
+        </td>
+      </tr>
 
-</form>
+      <tr>
+        <th>password again: </th>
+        <td>
+          <input type="password" name="pw_conf">
+        </td>
+      </tr>
+
+      <tr>
+        <th colspan="2">
+          <input type="submit" value="start registration!">
+        </th>
+      </tr>
+
+    </table>
+
+    <input type="hidden" name="password_hash" value="">
+    <input type="hidden" name="password_salt" value="<%= @password_salt %>">
+
+  </form>
+
+  <script type="text/javascript">
+    //<![CDATA[
+    document.registerStart.email.focus();
+    //]]>
+  </script>
+
+</div>

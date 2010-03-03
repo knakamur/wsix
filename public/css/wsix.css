@@ -51,13 +51,24 @@ div#register {
   top: 50px;
   left: 50px;
 }
-div#latest_registered {
-  font-size: 12px;
-}
+div#latest_registered {font-size: 12px;}
 a, a:visited {
   text-decoration: none;
   color: #44f;
 }
-a:hover {
-  color: #f44;
+a:hover {color: #f44;}
+div#form {
+  position: absolute;
+  top: 50px;
+  left: 25%;
 }
+span#errors {
+  color: #f00;
+  font-size: 14px;
+  text-align: left;
+  position: absolute;
+  top: 60px;
+  left: 5%;
+}
+th {text-align: right;}
+th,td {vertical-align: middle;}

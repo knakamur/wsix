@@ -1,0 +1,51 @@
+<div id="form">
+
+  <p>just a few more things...</p>
+
+  <span class="errors" id="errors"><%= @errors %></span>
+
+  <form name="registerMoreInfo" action="/register/moreinfo" method="post" onsubmit="return submitDance(this);">
+
+    <table>
+
+      <tr>
+        <th>email address: </th>
+        <td><%= @racer.email %></td>
+      </tr>
+
+      <% require 'dictionary'
+         Dictionary[
+           "name",              "name",
+           "street address",    "address",
+           "city",              "city",
+           "state/province",    "state",
+           "postal/zip code",   "postal",
+           "phone",             "phone",
+           "nextel",            "nextel" ].each do |k,v| %>
+
+        <tr>
+          <th><%= k %>: </th>
+          <td>
+            <input type="text" name="<%= v %>">
+          </td>
+        </tr>
+
+      <% end %>
+
+      <tr>
+        <th colspan="2">
+          <input type="submit" value="submit more info!">
+        </th>
+      </tr>
+
+    </table>
+
+  </form>
+
+  <script type="text/javascript">
+    //<![CDATA[
+    document.registerMoreInfo.name.focus();
+    //]]>
+  </script>
+
+</div>
