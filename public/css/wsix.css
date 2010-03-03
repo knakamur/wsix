@@ -1,0 +1,63 @@
+body {
+  background-color: #dff4ff;
+  overflow: hidden;
+  text-align: right;
+  color: #224;
+  font-family: verdana, arial, helvetica, sans-serif;
+  font-size: 24px;
+}
+p {
+  text-indent: 100px;
+  padding: 100px 80px 2% 2%;
+}
+img.bg {
+  width: 100%;
+  position: absolute;
+  top: 0; left: 0;
+  z-index: 1;
+}
+div#main {
+  width: 100%;
+  z-index: 10;
+  position: absolute;
+  top: 0; left: 0;
+}
+object {
+  position: relative;
+  right: 80px;
+  padding: 8px;
+  border: 1px solid #224;
+  background-color: #fff;
+}
+span.tenhover {
+  background-color: #fdd;
+  cursor: pointer;
+}
+div#copy {
+  font-size: 10px;
+  position: absolute;
+  z-index: 9;
+  bottom: 20px;
+  left: 80px;
+}
+span.nutria {
+  color: #44f;
+  font-weight: bold;
+}
+div#register {
+  text-align: center;
+  font-size: 18px;
+  position: absolute;
+  top: 50px;
+  left: 50px;
+}
+div#latest_registered {
+  font-size: 12px;
+}
+a, a:visited {
+  text-decoration: none;
+  color: #44f;
+}
+a:hover {
+  color: #f44;
+}

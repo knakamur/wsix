@@ -1,0 +1,46 @@
+<script type="text/javascript" src="/js/md5-min.js"></script>
+<script type="text/javascript">
+  //<![CDATA[
+  function submitDance() {
+    var pws = document.getElementById("password_string").value;
+    alert(pws);
+    var pwh = hex_md5(pws + "<%= @password_salt %>");
+    alert(pwh);
+  }
+  //]]>
+</script>
+
+<form action="/register/start" method="post" onsubmit="submitDance(this);">
+
+  <table>
+
+    <tr>
+      <th>email address: </th>
+      <td>
+        <input type="text" name="email"></input>
+      </td>
+    </tr>
+
+    <tr>
+      <th>password thing: </th>
+      <td>
+        <input type="password" name="password"></input>
+      </td>
+    </tr>
+
+    <tr>
+      <th>password again: </th>
+      <td>
+        <input type="password" name="pw_conf"></input>
+      </td>
+    </tr>
+
+    <tr>
+      <th colspan="2">
+        <input type="submit" value="start registration!"></input>
+      </th>
+    </tr>
+
+  </table>
+
+</form>
