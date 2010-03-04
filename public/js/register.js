@@ -63,10 +63,14 @@ function isRFC822ValidEmail(sEmail) {
   return false;
 }
 
+var showing = "Start";
 function snh(toShow, toHide) {
-  Effect.Fade('register' + toHide, { duration: 0.25 });
-  setTimeout("Effect.Appear('register' + '" + toShow + "')", 250);
-  $('show' + toHide).className = "tab inactive";
-  $('show' + toShow).className = "tab active";
-  $('register' + toShow).select("input").focus();
+  if (showing == toHide) {
+    Effect.Fade('register' + toHide, { duration: 0.25 });
+    setTimeout("Effect.Appear('register" + toShow + "')", 250);
+    $('show' + toHide).className = "tab inactive";
+    $('show' + toShow).className = "tab active";
+    setTimeout(function(){$('register' + toShow).select("input")[0].focus();}, 300);
+    showing = toShow;
+  }
 }

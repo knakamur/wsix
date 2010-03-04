@@ -6,7 +6,7 @@ class Racer
 
   property :id, Serial
 
-  property :email,         String, :length => 255
+  property :email,         String, :length => 255, :key => true
   property :name,          String, :length => 255
   property :password_hash, String, :length => 255
   property :password_salt, String, :length => 255
@@ -53,5 +53,3 @@ end
 #  end
 #
 #end
-
-DataMapper.auto_migrate!

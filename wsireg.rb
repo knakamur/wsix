@@ -12,9 +12,17 @@ require 'md5'
 
 enable :sessions
 
-before do
-  if session[:rsid]
-    @user = Racer.find_by_session_id(session[:rsid])
+
+helpers do
+  def session_rsid(user)
+    @user = user
+    session[:rsid] = @user.session_id
+  end
+
+  def user_from_rsid
+    if session[:rsid]
+      @user = Racer.find_by_session_id session[:rsid]
+    end
   end
 end
 
@@ -31,20 +39,18 @@ get '/register/start' do
 end
 
 post '/register/start' do
-
-  if Racer.first(:email => params[:email])
-    redirect "/register/login?email=#{params[:email]}"
+  @racer = Racer.first(:email => params[:email])
+  if @racer
+    @errors = "uh, we found your email in here already... remember your password?"
+    erb :'register/login'
+  else
+    @racer = Racer.new :email => params[:email],
+                       :password_hash => params[:password_hash],
+                       :password_salt => params[:password_salt]
+    @racer.save
+    session_rsid @racer
+    erb :'register/moreinfo'
   end
-
-  @racer = Racer.new :email => params[:email],
-                     :password_hash => params[:password_hash],
-                     :password_salt => params[:password_salt]
-  @racer.save
-
-  session[:rsid] = @racer.session_id
-
-  erb :'register/moreinfo'
-
 end
 
 
@@ -53,11 +59,14 @@ get '/register/moreinfo' do
 end
 
 put '/register/moreinfo' do
-  erb :thing
+  user_from_rsid
+  @user.update(params[:user])
+  erb :'register/status'
 end
 
 
 get '/register/done' do
+  user_from_rsid unless @user
   erb :'register/done'
 end
 
@@ -65,14 +74,19 @@ end
 get '/register/login' do
   session.clear
   @racer = Racer.first(:email => params[:email])
-  erb :'register/login'
+  if @racer
+    erb :'register/login'
+  else
+    @errors = "nope, don't know you. try again."
+    erb :'register/start'
+  end
 end
 
 post '/register/login' do
   @racer = Racer.first(:email => params[:email])
   if params[:password_hash].eql? @racer.password_hash
-    session[:rsid] = @racer.session_id
-    redirect '/register/moreinfo'
+    session_rsid @racer
+    erb :'register/moreinfo'
   else
     @errors = "nope, wrong password..."
     erb :'register/login'

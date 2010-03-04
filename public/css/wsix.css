@@ -41,6 +41,7 @@ span.nutria {
   font-weight: bold;
 }
 div#latest_registered {font-size: 12px;}
+img {border: none;}
 a, a:visited {
   text-decoration: none;
   color: #44f;

@@ -19,13 +19,18 @@
     </div>
 
     <div id="copy">
+
+      <% if @user %>
+        you are logged in as <%= @user.name %> &lt;<%= @user.email %>&gt;<br/>
+        you can:
+        <a href="/register/status">check yer status</a> or
+        <a href="/register/logout">log the eff out</a>
+        <hr/>
+      <% end %>
+
       &copy; 2010
       portla<span class="nutria">N</span>d <span class="nutria">U</span>ni<span class="nutria">T</span>ed messenge<span class="nutria">R</span> assoc<span class="nutria">IA</span>tion
-      <% if @user %>
-        <br/>
-        you are logged in as <%= @user.name %> &lt;<%= @user.email %>&gt;
-        <a href="/register/logout">logout!</a>
-      <% end %>
+
     </div>
 
   </body>
