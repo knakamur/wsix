@@ -12,10 +12,14 @@ require 'md5'
 
 enable :sessions
 
-# ROUTES !!!
+before do
+  if session[:rsid]
+    @user = Racer.find_by_session_id(session[:rsid])
+  end
+end
 
 get '/' do
-  @racers = Racer.all(:order => [:id.desc], :name) || []
+  @racers = Racer.all(:order => [:id.desc], :name.not => nil) || []
   erb :main
 end
 
@@ -45,12 +49,10 @@ end
 
 
 get '/register/moreinfo' do
-  @racer = Racer.find_by_session_id session[:rsid]
   erb :'register/moreinfo'
 end
 
 put '/register/moreinfo' do
-  @racer = Racer.find_by_session_id session[:rsid]
   erb :thing
 end
 

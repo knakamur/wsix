@@ -1,0 +1,27 @@
+div#form {
+  position: absolute;
+  top: 50px;
+  left: 25%;
+}
+span#errors {
+  color: #f00;
+  font-size: 14px;
+  text-align: left;
+  position: absolute;
+  top: 60px;
+  left: 5%;
+}
+th {text-align: right;}
+th,td {
+  font-size: 18px;
+  vertical-align: middle;
+}
+
+div#registerLogin {
+}
+a.tab {cursor: pointer;}
+a.tab:hover { color: #f44; } /* no href attrs */
+a.active { color: #44f; }
+a.inactive { color: #aaa; }
+/*table.tab {width: 100%;}*/
+td.tab {text-align: center;}

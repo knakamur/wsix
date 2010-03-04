@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="/css/register.css">
 <script type="text/javascript" src="/js/md5-min.js"></script>
 <script type="text/javascript">
   //<![CDATA[
@@ -13,7 +14,7 @@
 
   <span class="errors" id="errors"><%= @errors %></span>
 
-  <form action="/register/login" method="post" name="login" onsubmit="return submitDance(this);">
+  <form name="registerLogin" action="/register/login" method="post" onsubmit="return submitDance(this);">
 
     <table>
 
@@ -33,9 +34,16 @@
 
     </table>
 
+    <input type="hidden" name="email" value="<%= @racer.email %>">
     <input type="hidden" name="password_hash" value="">
     <input type="hidden" name="password_salt" value="<%= @racer.password_salt %>">
 
   </form>
 
 </div>
+
+<script type="text/javascript">
+  //<![CDATA[
+  document.registerLogin.password.focus();
+  //]]>
+</script>
