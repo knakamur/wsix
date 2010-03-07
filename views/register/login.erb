@@ -5,6 +5,7 @@
   function submitDance(theForm) {
     theForm.password_hash.value =
       hex_md5(theForm.password.value + theForm.password_salt.value);
+    $(theForm.password).remove();
     return true;
   }
   //]]>

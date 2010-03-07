@@ -1,42 +1,26 @@
-function submitDance(theForm) {
-  if (!(validate(theForm))) {
-    return false;
-  }
-  theForm.password_hash.value =
-    hex_md5(theForm.password.value + theForm.password_salt.value);
-  return true;
-}
-
-function validate(theForm) {
-  var valid = true;
-  var errorSpan = document.getElementById("errors");
-  var errorBuf = "";
+var validateStart = function(theForm, result) {
 
   // check email address
   if (!(isRFC822ValidEmail(theForm.email.value))) {
-    valid = false;
-    errorBuf = errorBuf + "<b>email address</b> is not valid.<br/>";
+    bad(result, "<b>email address</b> is not valid.<br/>");
   }
 
   // check password
   if (!(theForm.password.value.length >= 6)) {
-    valid = false;
-    errorBuf = errorBuf + "<b>password</b> is not long enough (needs 6 or more).<br/>";
+    bad(result, "<b>password</b> is not long enough (needs 6 or more).<br/>");
   }
 
   // check confirmation matches password
   if (theForm.pw_conf.value != theForm.password.value) {
-    valid = false;
-    errorBuf = errorBuf + "<b>passwords</b> don't match.<br/>";
+    bad(result, "<b>passwords</b> don't match.<br/>");
   }
 
-  if (valid) { 
-    errorSpan.innerHTML = "";
-  } else {
-    errorSpan.innerHTML = errorBuf;
+  if (result.valid) {
+    $(theForm.password).remove();
+    $(theForm.pw_conf).remove();
   }
-  return valid;
-}
+
+};
 
 // thanks to rosskendall.com
 function isRFC822ValidEmail(sEmail) {
@@ -73,4 +57,13 @@ function snh(toShow, toHide) {
     setTimeout(function(){$('register' + toShow).select("input")[0].focus();}, 300);
     showing = toShow;
   }
+}
+
+function submitDance(theForm) {
+  if (!(validate(theForm, validateStart))) {
+    return false;
+  }
+  theForm.password_hash.value =
+    hex_md5(theForm.password.value + theForm.password_salt.value);
+  return true;
 }

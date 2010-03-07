@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="/css/register.css">
-<script type="text/javascript" src="/js/register.js"></script>
+<script type="text/javascript" src="/js/register/moreinfo.js"></script>
 
 <div id="form">
 
@@ -8,46 +8,99 @@
   <span class="errors" id="errors"><%= @errors %></span>
 
   <form name="registerMoreInfo" action="/register/moreinfo" method="post" onsubmit="return submitDance(this);">
+    <input type="hidden" name="_method" value="put">
 
     <table>
-
       <tr>
-        <th>email address: </th>
-        <td><%= @user.email %></td>
+
+        <td>
+          <table>
+
+            <tr>
+              <th>email address: </th>
+              <td><%= @user.email %></td>
+            </tr>
+
+            <% Racer.fieldmap.each do |k,v| %>
+
+              <tr>
+                <th><%= k %>: </th>
+                <td>
+                  <input type="text" name="user[<%= v %>]" value="<%= @user.send(v) %>">
+                </td>
+              </tr>
+
+            <% end %>
+
+            <tr>
+              <th colspan="2">
+                <input type="submit" value="submit more info!">
+              </th>
+            </tr>
+
+          </table>
+        </td>
+
+        <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+
+        <td>
+          <table>
+
+            <tr>
+              <th># of years you've worked: </th>
+              <td><input type="text" name="user[years_worked]" value="<%= @user.years_worked %>"></td>
+            </tr>
+
+            <tr>
+              <th>company/companies: </th>
+              <td>
+                <textarea name="user[companies]"><%= @user.companies %></textarea>
+              </td>
+            </tr>
+          
+            <tr>
+              <th>what racer number do you want? </th>
+              <td><input type="text" name="user[number_requested]" value="<%= @user.number_requested %>"></td>
+            </tr>
+
+            <tr>
+              <th>do you want a shirt? (+$5) </th>
+              <td>
+                <input type="checkbox" name="user[shirt_requested]" value="true" id="shirtRequested"
+                       onchange="flipShirtSize(!this.checked);"
+                       <%= @user.shirt_requested ? "checked" : "" %>>
+              </td>
+            </tr>
+
+            <tr>
+              <th id="shirtSizeLabel">what size do you want? </th>
+              <td>
+                <select name="user[shirt_size]" id="shirtSize">
+                  <% %w{ S M L }.each do |size| %>
+                    <option <%= @user.shirt_size.eql?(size) ? "selected" : "" %>><%= size %></option>
+                  <% end %>
+                </select>
+              </td>
+            </tr>
+
+          </table>
+        </td>
+
       </tr>
-
-      <% require 'dictionary'
-         Dictionary[
-           "name",              "name",
-           "street address",    "address",
-           "city",              "city",
-           "state/province",    "state",
-           "postal/zip code",   "postal",
-           "phone",             "phone",
-           "nextel",            "nextel" ].each do |k,v| %>
-
-        <tr>
-          <th><%= k %>: </th>
-          <td>
-            <input type="text" name="<%= v %>">
-          </td>
-        </tr>
-
-      <% end %>
-
-      <tr>
-        <th colspan="2">
-          <input type="submit" value="submit more info!">
-        </th>
-      </tr>
-
     </table>
 
   </form>
 
   <script type="text/javascript">
     //<![CDATA[
-    document.registerMoreInfo.name.focus();
+    var ins = $(document.registerMoreInfo).select("input");
+    for (var i = 0; i < ins.length; i++) {
+      if (ins[i].value == "") {
+        ins[i].focus();
+        break;
+      }
+    }
+    onLoaders.push(function(){ flipShirtSize(!($('shirtRequested').checked)); });
     //]]>
   </script>
 

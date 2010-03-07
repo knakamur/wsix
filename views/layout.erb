@@ -10,11 +10,13 @@
     <script type="text/javascript" src="/js/wsix.js"></script>
   </head>
 
-  <body onload="doOnLoaders();">
+  <body>
 
     <img src="/images/wsibg<%= @bg %>.jpg" class="bg">
 
     <div id="main">
+      <span style="float: right;" id="windowDimensions"></span>
+
       <%= yield %>
     </div>
 

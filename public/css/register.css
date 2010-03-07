@@ -1,21 +1,21 @@
 div#form {
   position: absolute;
-  top: 50px;
-  left: 25%;
+  top: 25px;
+  left: 15%;
 }
 span#errors {
   color: #f00;
   font-size: 14px;
   text-align: left;
   position: absolute;
-  top: 60px;
-  left: 5%;
+  top: 10px;
 }
 th {text-align: right;}
 th,td {
-  font-size: 18px;
+  font-size: 12px;
   vertical-align: middle;
 }
+td {text-align: left;}
 
 div#registerLogin {
 }
@@ -25,3 +25,8 @@ a.active { color: #44f; }
 a.inactive { color: #aaa; }
 /*table.tab {width: 100%;}*/
 td.tab {text-align: center;}
+td.status {
+  text-align: center;
+  font-style: italic;
+  font-size: 10px;
+}

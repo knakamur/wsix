@@ -1,0 +1,115 @@
+<link rel="stylesheet" href="/css/register.css">
+
+<div id="form">
+
+  <p>thanks, <%= @user.name %>. we look forward to seeing you.
+  here's a look at what we know about you:</p>
+  
+  <table>
+    <tr>
+
+      <td>
+        <table>
+        
+          <% Racer.fieldmap.each do |k,v| %>
+            <tr>
+              <th><%= k %>: </th>
+              <td><%= escape_html @user.send(v) %></td>
+            </tr>
+          <% end %>
+        
+        </table>
+      </td>
+
+      <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+
+      <td>
+        <table>
+        
+          <tr>
+            <th># of years you've worked: </th>
+            <td><%= @user.years_worked %></td>
+          </tr>
+
+          <tr>
+            <th>company/companies: </th>
+            <td><%= @user.companies %></td>
+          </tr>
+        
+          <tr>
+            <th>number you want: </th>
+            <td><%= @user.number_requested %></td>
+          </tr>
+
+          <tr>
+            <td colspan="2">you <b><%= @user.shirt_requested ? "do" : "don't" %></b> want a shirt.</td>
+          </tr>
+
+          <% if @user.shirt_requested %>
+            <tr>
+              <th>and it's size will be... </th>
+              <td><%= @user.shirt_size %></td>
+            </tr>
+          <% end %>
+
+        </table>
+      </td>
+
+    </tr>
+
+    <tr>
+      <td colspan="3" style="text-align:center;">
+        <a href="/register/moreinfo">edit your info</a>
+      </td>
+    </tr>
+
+    <tr><td colspan="3">&nbsp;</td></tr>
+    <tr><td colspan="3" style="text-align:center;">.........................</td></tr>
+    <tr><td colspan="3">&nbsp;</td></tr>
+
+    <tr>
+      <td colspan="3">
+
+        <% if @user.payment_status.paid? %>
+
+        <% else %>
+
+          <table>
+            <tr>
+              <th>current payment type: </th>
+              <td>
+                $<%= @user.payment_type[:amount] %>.00
+                <%= @user.payment_type[:description] %>
+              </td>
+            </tr>
+            <tr>
+              <td class="status" colspan="2">
+                paying before the 1st of may saves you $10!
+              </td>
+            </tr>
+          </table>
+        
+        <% end%>
+
+      </td>
+    </tr>
+
+    <tr><td colspan="3">&nbsp;</td></tr>
+
+    <tr>
+      <td colspan="3" style="text-align:center;">
+
+        <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
+          <input type="hidden" name="cmd" value="_s-xclick">
+          <input type="hidden" name="hosted_button_id" value="QJAKQZ7NEXQAY">
+          <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
+          <input type="submit" value="pay now!">
+        </form>
+
+      </td>
+
+    </tr>
+        
+  </table>
+  
+</div>

@@ -13,7 +13,15 @@ require 'md5'
 enable :sessions
 
 
+before do
+  @bg = (rand * 7).round
+  puts "\nparams => { #{params.inspect} }\n"
+end
+
+
 helpers do
+  include Rack::Utils
+
   def session_rsid(user)
     @user = user
     session[:rsid] = @user.session_id
@@ -25,6 +33,7 @@ helpers do
     end
   end
 end
+
 
 get '/' do
   @racers = Racer.all(:order => [:id.desc], :name.not => nil) || []
@@ -47,27 +56,54 @@ post '/register/start' do
     @racer = Racer.new :email => params[:email],
                        :password_hash => params[:password_hash],
                        :password_salt => params[:password_salt]
-    @racer.save
-    session_rsid @racer
-    erb :'register/moreinfo'
+
+    @racer.payment_status = PaymentStatus.new(
+      :type => (PaymentStatus::EARLY_PAYMENT_END > Date.today) ? "WSIXE" : "WSIX");
+
+    if @racer.save
+      session_rsid @racer
+      erb :'register/moreinfo'
+    else
+      @errors = "whoa there tiger!"
+      erb :'register/start'
+    end
   end
 end
 
 
 get '/register/moreinfo' do
+  user_from_rsid
   erb :'register/moreinfo'
 end
 
 put '/register/moreinfo' do
   user_from_rsid
-  @user.update(params[:user])
-  erb :'register/status'
+  params[:user].delete_if {|k,v| v.blank?}
+  params[:user][:shirt_requested] ||= 'false' # checkbox
+
+  if params[:user][:shirt_requested] != @user.shirt_requested.to_s
+    @user.payment_status.update :type => "WSIX" + 
+      ((PaymentStatus::EARLY_PAYMENT_END > Date.today) ? "E" : "") +
+      (params[:user][:shirt_requested].eql?(true.to_s) ? "S" : "")
+  end
+
+  if @user.update(params[:user])
+    erb :'register/status'
+  else
+    @errors = "something went awry...<br/>"
+    erb :'register/moreinfo'
+  end
 end
 
 
 get '/register/done' do
-  user_from_rsid unless @user
+  user_from_rsid
   erb :'register/done'
+end
+
+get '/register/status' do
+  user_from_rsid
+  erb :'register/status'
 end
 
 
@@ -86,7 +122,13 @@ post '/register/login' do
   @racer = Racer.first(:email => params[:email])
   if params[:password_hash].eql? @racer.password_hash
     session_rsid @racer
-    erb :'register/moreinfo'
+
+    if Racer.fieldmap.values.detect {|prop| @user.send(prop).nil?}
+      erb :'register/moreinfo'
+    else
+      erb :'register/status'
+    end
+
   else
     @errors = "nope, wrong password..."
     erb :'register/login'
