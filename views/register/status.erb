@@ -123,23 +123,31 @@
           
         <% else %>
 
-          <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
-            <% { "business" =>      "ken@portlandmessenger.org",
-                 "currency_code" => "USD",
-                 "cmd" =>           "_xclick",
-                 "notify_url" =>    "http://test.westsideinvite.com/paypal/ipn",
-                 "amount" =>        @user.payment_type[:amount].to_s,
-                 "item_name" =>     @user.payment_type[:description],
-                 "custom" =>        @user.session_id,
-                 "cs" =>            "1",
-                 "return" =>        "http://test.westsideinvite.com/register/status",
-                 "cancel_return" => "http://test.westsideinvite.com/register/status" }.each do |k,v| %>
+          <% unless @user.payment_status.last_paypal_status.blank? %>
 
-              <input type="hidden" name="<%= k %>" value="<%= v %>">
-            <% end %>
-            <input type="submit" value="pay now!">
-          </form>
-        
+            <i>paypal says your status is '<%= @user.payment_status.last_paypal_status %>'.</i><br/>
+            <br/>
+
+          <% end %>
+
+            <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
+              <% { "business" =>      "ken@portlandmessenger.org",
+                   "currency_code" => "USD",
+                   "cmd" =>           "_xclick",
+                   "notify_url" =>    "http://test.westsideinvite.com/paypal/ipn",
+                   "amount" =>        @user.payment_type[:amount].to_s,
+                   "item_name" =>     @user.payment_type[:description],
+                   "custom" =>        @user.session_id,
+                   "no_shipping" =>   "1",
+                   "cs" =>            "1",
+                   "return" =>        "http://test.westsideinvite.com/register/status",
+                   "cancel_return" => "http://test.westsideinvite.com/register/status" }.each do |k,v| %>
+
+                <input type="hidden" name="<%= k %>" value="<%= v %>">
+              <% end %>
+              <input type="submit" value="pay now!">
+            </form>
+
         <% end %>
 
       </td>

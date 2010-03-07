@@ -12,6 +12,7 @@ require 'md5'
 
 require 'net/http'
 require 'uri'
+require 'base64'
 
 enable :sessions
 
@@ -106,6 +107,7 @@ end
 
 get '/register/status' do
   user_from_rsid
+  redirect '/' unless @user
   erb :'register/status'
 end
 
@@ -154,23 +156,42 @@ post '/paypal/ipn' do
   if res.body.trim.eql? "VERIFIED"
     
     # check the txn_id to see if it's happened before...
-    if PaymentStatus.count(:txn_id => params['txn_id']) > 0
+    if PaymentStatus.first(:txn_id => params['txn_id'])
       # TODO batsignal!
     end
     
+    user = Racer.find_by_session_id(params['custom'])
+
     # check the payment_status of the user in question...
-    if user = Racer.find_by_session_id(params['custom'])
-      if user.payment_status.paid?
+    if user && user.payment_status.paid?
         # TODO wha huh?
-      else
-        user.payment_status.update :paid => true,
-                                   :when => Time.now,
-                                   :txn_id => params['txn_id']
-      end
+    end
+
+    # check status 
+    if params['payment_status'].eql? "Completed"
+      user.payment_status.update :paid => true,
+                                 :when => Time.now,
+                                 :txn_id => params['txn_id'],
+                                 :last_paypal_post => Base64.encode64(Marshall.dump(params)),
+                                 :last_paypal_status => params['payment_status']
+    else
+      user.payment_status.update :last_paypal_post => Base64.encode64(Marshall.dump(params)),
+                                 :last_paypal_status => params['payment_status']
     end
 
   else
     # TODO batsignal!
   end
 
+end
+
+post '/register/status' do
+  user_from_session_id
+  if params.has_key? 'custom' and params.has_key? 'payment_status' and @user.session_id.eql?(params['custom'])
+    @user.payment_status.update :last_paypal_post => Base64.encode64(Marshall.dump(params)),
+                                :last_paypal_status => params['payment_status']
+    redirect '/register/status'
+  else
+    redirect '/'
+  end
 end

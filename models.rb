@@ -74,6 +74,9 @@ class PaymentStatus
   property :when,    DateTime
   property :txn_id,  String, :length => 255
 
+  property :last_paypal_post,   Text
+  property :last_paypal_status, String
+
   before :save do 
     self.updated = Time.now
   end
