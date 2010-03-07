@@ -72,8 +72,7 @@ class PaymentStatus
 
   property :paid,    Boolean, :default => false
   property :when,    DateTime
-  property :confirmation_code, String
-  property :transaction_id,    String
+  property :txn_id,  String, :length => 255
 
   before :save do 
     self.updated = Time.now

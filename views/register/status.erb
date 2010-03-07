@@ -116,17 +116,25 @@
               <td><%= @user.payment_status.when %></td>
             </tr>
             <tr>
-              <th>paypal confirmation code: </th>
-              <td><%= @user.payment_status.confirmation_code %></td>
+              <th>paypal transaction id: </th>
+              <td><%= @user.payment_status.txn_id %></td>
             </tr>
           </table>
           
         <% else %>
 
           <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
-            <input type="hidden" name="cmd" value="_s-xclick">
-            <input type="hidden" name="hosted_button_id" value="<%= @user.payment_type[:hosted_button_id] %>">
-            <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
+            <% { "cmd" =>           "_xclick",
+                 "notify_url" =>    "http://test.westsideinvite.com/paypal/ipn",
+                 "amount" =>        @user.payment_type[:amount].to_s,
+                 "item_name" =>     @user.payment_type[:description],
+                 "custom" =>        @user.session_id,
+                 "cs" =>            "1",
+                 "return" =>        "http://test.westsideinvite.com/register/status",
+                 "cancel_return" => "http://test.westsideinvite.com/register/status" }.each do |k,v| %>
+
+              <input type="hidden" name="<%= k %>" value="<%= v %>">
+            <% end %>
             <input type="submit" value="pay now!">
           </form>
         

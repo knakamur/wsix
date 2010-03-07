@@ -10,6 +10,9 @@ require 'models'
 require 'lib/rfc822'
 require 'md5'
 
+require 'net/http'
+require 'uri'
+
 enable :sessions
 
 
@@ -138,4 +141,36 @@ end
 get '/register/logout' do
   session.clear
   redirect '/'
+end
+
+post '/paypal/ipn' do
+
+  # ask paypal to verify the things they just sent
+  res = Net::HTTP.post_form(
+    URI.parse("http://www.sandbox.paypal.com/cgi-bin/webscr"),
+    { "cmd" => "_notify-validate" }.merge(params))
+
+  # if they say it's cool...
+  if res.body.trim.eql? "VERIFIED"
+    
+    # check the txn_id to see if it's happened before...
+    if PaymentStatus.count(:txn_id => params['txn_id']) > 0
+      # TODO batsignal!
+    end
+    
+    # check the payment_status of the user in question...
+    if user = Racer.find_by_session_id(params['custom'])
+      if user.payment_status.paid?
+        # TODO wha huh?
+      else
+        user.payment_status.update :paid => true,
+                                   :when => Time.now,
+                                   :txn_id => params['txn_id']
+      end
+    end
+
+  else
+    # TODO batsignal!
+  end
+
 end
