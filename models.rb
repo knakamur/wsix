@@ -68,9 +68,12 @@ class PaymentStatus
 
   property :type,    String
   property :amount,  Float
+  property :updated, DateTime
+
   property :paid,    Boolean, :default => false
   property :when,    DateTime
-  property :updated, DateTime
+  property :confirmation_code, String
+  property :transaction_id,    String
 
   before :save do 
     self.updated = Time.now
@@ -81,19 +84,19 @@ class PaymentStatus
                   :hosted_button_id => "QJAKQZ7NEXQAY",
                   :amount =>      30 },
     "WSIXES" => { :description => "WSI X - early registration - shirt included",
-                  :hosted_button_id => "QJAKQZ7NEXQAY",
+                  :hosted_button_id => "ELSVY6GSZNCY2",
                   :amount =>      35 },
     "WSIX" => {   :description => "WSI X - no shirt",
-                  :hosted_button_id => "QJAKQZ7NEXQAY",
+                  :hosted_button_id => "T6ADCRQVLR6KU",
                   :amount =>      40 },
     "WSIXS" => {  :description => "WSI X - shirt included",
-                  :hosted_button_id => "QJAKQZ7NEXQAY",
+                  :hosted_button_id => "23G8356YVBSUN",
                   :amount =>      45 }
   }
   def self.types
     @@types
   end
-
+  
   alias_method :paid, :paid?
 
 end

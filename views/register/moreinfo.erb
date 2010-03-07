@@ -68,6 +68,7 @@
               <td>
                 <input type="checkbox" name="user[shirt_requested]" value="true" id="shirtRequested"
                        onchange="flipShirtSize(!this.checked);"
+                       <%= @user.payment_status.paid? ? "disabled" : "" %>
                        <%= @user.shirt_requested ? "checked" : "" %>>
               </td>
             </tr>
@@ -75,9 +76,13 @@
             <tr>
               <th id="shirtSizeLabel">what size do you want? </th>
               <td>
-                <select name="user[shirt_size]" id="shirtSize">
+                <select name="user[shirt_size]" id="shirtSize"
+                        <%= @user.payment_status.paid? ? "disabled" : "" %>>
                   <% %w{ S M L }.each do |size| %>
-                    <option <%= @user.shirt_size.eql?(size) ? "selected" : "" %>><%= size %></option>
+                    <option <%= @user.payment_status.paid? ? "disabled" : "" %>
+                            <%= @user.shirt_size.eql?(size) ? "selected" : "" %>>
+                      <%= size %>
+                    </option>
                   <% end %>
                 </select>
               </td>

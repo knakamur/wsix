@@ -42,7 +42,9 @@
           </tr>
 
           <tr>
-            <td colspan="2">you <b><%= @user.shirt_requested ? "do" : "don't" %></b> want a shirt.</td>
+            <td colspan="2" style="text-align:center;">
+              you <b><%= @user.shirt_requested ? "do" : "don't" %></b> want a shirt.
+            </td>
           </tr>
 
           <% if @user.shirt_requested %>
@@ -70,27 +72,31 @@
     <tr>
       <td colspan="3">
 
-        <% if @user.payment_status.paid? %>
+        <table>
+          <tr>
+            <th>
+              <% if @user.payment_status.paid? %>
+                thanks for your payment of:
+              <% else %>
+                current payment type:
+              <% end %>
+            </th>
+            <td>
+              $<%= @user.payment_type[:amount] %>.00
+              <%= @user.payment_type[:description] %>
+            </td>
+          </tr>
 
-        <% else %>
-
-          <table>
-            <tr>
-              <th>current payment type: </th>
-              <td>
-                $<%= @user.payment_type[:amount] %>.00
-                <%= @user.payment_type[:description] %>
-              </td>
-            </tr>
+          <% if PaymentStatus::EARLY_PAYMENT_END > Date.today %>
             <tr>
               <td class="status" colspan="2">
                 paying before the 1st of may saves you $10!
               </td>
             </tr>
-          </table>
-        
-        <% end%>
+          <% end %>
 
+        </table>
+        
       </td>
     </tr>
 
@@ -99,12 +105,32 @@
     <tr>
       <td colspan="3" style="text-align:center;">
 
-        <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
-          <input type="hidden" name="cmd" value="_s-xclick">
-          <input type="hidden" name="hosted_button_id" value="QJAKQZ7NEXQAY">
-          <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
-          <input type="submit" value="pay now!">
-        </form>
+        <% if @user.payment_status.paid? %>
+
+          you're early registration really helps out.<br/>
+          here's the info on that:<br/>
+
+          <table>
+            <tr>
+              <th>payment date: </th>
+              <td><%= @user.payment_status.when %></td>
+            </tr>
+            <tr>
+              <th>paypal confirmation code: </th>
+              <td><%= @user.payment_status.confirmation_code %></td>
+            </tr>
+          </table>
+          
+        <% else %>
+
+          <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
+            <input type="hidden" name="cmd" value="_s-xclick">
+            <input type="hidden" name="hosted_button_id" value="<%= @user.payment_type[:hosted_button_id] %>">
+            <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
+            <input type="submit" value="pay now!">
+          </form>
+        
+        <% end %>
 
       </td>
 

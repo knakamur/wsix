@@ -88,7 +88,7 @@ put '/register/moreinfo' do
   end
 
   if @user.update(params[:user])
-    erb :'register/status'
+    redirect '/register/status'
   else
     @errors = "something went awry...<br/>"
     erb :'register/moreinfo'
