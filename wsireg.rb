@@ -153,7 +153,7 @@ post '/paypal/ipn' do
     { "cmd" => "_notify-validate" }.merge(params))
 
   # if they say it's cool...
-  if res.body.trim.eql? "VERIFIED"
+  if res.body.strip.eql? "VERIFIED"
     
     # check the txn_id to see if it's happened before...
     if PaymentStatus.first(:txn_id => params['txn_id'])
@@ -172,10 +172,10 @@ post '/paypal/ipn' do
       user.payment_status.update :paid => true,
                                  :when => Time.now,
                                  :txn_id => params['txn_id'],
-                                 :last_paypal_post => Base64.encode64(Marshall.dump(params)),
+                                 :last_paypal_post => Base64.encode64(Marshal.dump(params)),
                                  :last_paypal_status => params['payment_status']
     else
-      user.payment_status.update :last_paypal_post => Base64.encode64(Marshall.dump(params)),
+      user.payment_status.update :last_paypal_post => Base64.encode64(Marshal.dump(params)),
                                  :last_paypal_status => params['payment_status']
     end
 
@@ -188,7 +188,7 @@ end
 post '/register/status' do
   user_from_session_id
   if params.has_key? 'custom' and params.has_key? 'payment_status' and @user.session_id.eql?(params['custom'])
-    @user.payment_status.update :last_paypal_post => Base64.encode64(Marshall.dump(params)),
+    @user.payment_status.update :last_paypal_post => Base64.encode64(Marshal.dump(params)),
                                 :last_paypal_status => params['payment_status']
     redirect '/register/status'
   else
