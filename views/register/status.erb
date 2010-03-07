@@ -124,7 +124,9 @@
         <% else %>
 
           <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
-            <% { "cmd" =>           "_xclick",
+            <% { "business" =>      "ken@portlandmessenger.org",
+                 "currency_code" => "USD",
+                 "cmd" =>           "_xclick",
                  "notify_url" =>    "http://test.westsideinvite.com/paypal/ipn",
                  "amount" =>        @user.payment_type[:amount].to_s,
                  "item_name" =>     @user.payment_type[:description],
