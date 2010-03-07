@@ -172,11 +172,9 @@ post '/paypal/ipn' do
       user.payment_status.update :paid => true,
                                  :when => Time.now,
                                  :txn_id => params['txn_id'],
-                                 :last_paypal_post => Base64.encode64(Marshal.dump(params)),
                                  :last_paypal_status => params['payment_status']
     else
-      user.payment_status.update :last_paypal_post => Base64.encode64(Marshal.dump(params)),
-                                 :last_paypal_status => params['payment_status']
+      user.payment_status.update :last_paypal_status => params['payment_status']
     end
 
   else
@@ -188,8 +186,7 @@ end
 post '/register/status' do
   user_from_session_id
   if params.has_key? 'custom' and params.has_key? 'payment_status' and @user.session_id.eql?(params['custom'])
-    @user.payment_status.update :last_paypal_post => Base64.encode64(Marshal.dump(params)),
-                                :last_paypal_status => params['payment_status']
+    @user.payment_status.update :last_paypal_status => params['payment_status']
     redirect '/register/status'
   else
     redirect '/'
