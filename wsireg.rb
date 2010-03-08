@@ -130,7 +130,7 @@ post '/register/login' do
   if params[:password_hash].eql? @racer.password_hash
     session_rsid @racer
 
-    if Racer.fieldmap.values.detect {|prop| @user.send(prop).nil?}
+    if !(@user.payment_status.paid_or_pending?) and Racer.fieldmap.values.detect {|prop| @user.send(prop).nil?} 
       erb :'register/moreinfo'
     else
       erb :'register/status'

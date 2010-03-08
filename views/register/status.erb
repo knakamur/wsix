@@ -109,19 +109,21 @@
 
         <% if @user.payment_status.paid? %>
 
-          you're early registration really helps out.<br/>
-          here's the info on that:<br/>
+          <div class="rounded" style="background-color: #ddd;">
+            you're early registration really helps out.<br/>
+            here's the info on that:<br/>
 
-          <table>
-            <tr>
-              <th>payment date: </th>
-              <td><%= @user.payment_status.when %></td>
-            </tr>
-            <tr>
-              <th>paypal transaction id: </th>
-              <td><%= @user.payment_status.txn_id %></td>
-            </tr>
-          </table>
+            <table>
+              <tr>
+                <th>payment date: </th>
+                <td><%= @user.payment_status.when %></td>
+              </tr>
+              <tr>
+                <th>paypal transaction id: </th>
+                <td><%= @user.payment_status.txn_id %></td>
+              </tr>
+            </table>
+          </div>
           
         <% else %>
 
@@ -129,7 +131,7 @@
 
             <div class="rounded" style="background-color: #ddd;">
               paypal says your status is '<i><%= @user.payment_status.paypal_status %></i>'.<br/>
-              please check back as paypal will update us when everything goes through...thanks again!<br/>
+              please check back, they'll update us.
             </div>
 
           <% else %>
