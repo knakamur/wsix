@@ -127,8 +127,10 @@
 
           <% unless @user.payment_status.paypal_status.blank? %>
 
-            <i>paypal says your status is '<%= @user.payment_status.paypal_status %>'.</i><br/>
-            please check back as paypal will update us when everything goes through...thanks again!<br/>
+            <div class="rounded" style="background-color: #ddd;">
+              paypal says your status is '<i><%= @user.payment_status.paypal_status %></i>'.<br/>
+              please check back as paypal will update us when everything goes through...thanks again!<br/>
+            </div>
 
           <% else %>
 

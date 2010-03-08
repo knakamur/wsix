@@ -59,11 +59,13 @@ div#latest_registered, div#calendar {
   font-size: 10px;
   color: #000;
 }
-.translucentRounded {
+.rounded {
   padding: 5px;
   border: 1px solid #777;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
+}
+.translucentRounded {
   background-color: #ddd;
   filter:alpha(opacity=50);
   -moz-opacity:0.5;
