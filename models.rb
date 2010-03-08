@@ -99,8 +99,6 @@ class PaymentStatus
     @@types
   end
   
-  alias_method :paid, :paid?
-
   def pending?
     last_paypal_status.eql?("Pending")
   end
@@ -121,10 +119,9 @@ class PaymentStatus
       update :last_paypal_status => params['payment_status'],
              :last_paypal_params => Base64.encode64(Marshal.dump(params))
     end
-
   end
 
-  alias_method :last_paypal_params, :orig_last_paypal_params
+  alias_method :orig_last_paypal_params, :last_paypal_params
   def last_paypal_params
     Marshal.load(Base64.decode64(orig_last_paypal_params))
   end
