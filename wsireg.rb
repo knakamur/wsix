@@ -17,7 +17,7 @@ enable :sessions
 
 
 before do
-  @bg = (rand * 7).round
+  @bg = (rand * 8).round
   puts "\nparams => { #{params.inspect} }\n"
 end
 
