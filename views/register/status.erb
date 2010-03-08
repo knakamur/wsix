@@ -59,11 +59,13 @@
 
     </tr>
 
-    <tr>
-      <td colspan="3" style="text-align:center;">
-        <a href="/register/moreinfo">edit your info</a>
-      </td>
-    </tr>
+    <% unless @user.payment_status.paid_or_pending? %>
+      <tr>
+        <td colspan="3" style="text-align:center;">
+          <a href="/register/moreinfo">edit your info</a>
+        </td>
+      </tr>
+    <% end %>
 
     <tr><td colspan="3">&nbsp;</td></tr>
     <tr><td colspan="3" style="text-align:center;">.........................</td></tr>
@@ -126,11 +128,12 @@
           <% unless @user.payment_status.paypal_status.blank? %>
 
             <i>paypal says your status is '<%= @user.payment_status.paypal_status %>'.</i><br/>
-            <br/>
+            please check back as paypal will update us when everything goes through...thanks again!<br/>
 
-          <% end %>
+          <% else %>
 
-            <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
+            <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post"
+                  onsubmit="return confirm('Once you pay, you won\'t be able to change anything above.  Cool?');">
               <% { "business" =>      "ken@portlandmessenger.org",
                    "currency_code" => "USD",
                    "cmd" =>           "_xclick",
@@ -147,6 +150,8 @@
               <% end %>
               <input type="submit" value="pay now!">
             </form>
+
+          <% end %>
 
         <% end %>
 

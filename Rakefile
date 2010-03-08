@@ -13,6 +13,8 @@ end
 desc "resets db with one racer email foo@bar, passwd 'testyy'."
 task :redb => [:dmau] do
   Racer.new(:email => "foo@bar",
+            :payment_status => PaymentStatus.new,
             :password_hash => "930945ae5ff0286b808b8e362a2c7e6b",
             :password_salt => "d901485c481d7882d7f75135c73fba4f").save
+
 end
