@@ -114,10 +114,10 @@ class PaymentStatus
              :when => Time.now,
              :txn_id => params['txn_id'],
              :last_paypal_status => params['payment_status'],
-             :last_paypal_params => Base64.encode64(Marshal.dump(params))
+             :last_paypal_params => p(params)
     else
       update :last_paypal_status => params['payment_status'],
-             :last_paypal_params => Base64.encode64(Marshal.dump(params))
+             :last_paypal_params => p(params)
     end
   end
 
@@ -125,6 +125,20 @@ class PaymentStatus
   def last_paypal_params
     Marshal.load(Base64.decode64(orig_last_paypal_params))
   end
+  alias_method :orig_last_paypal_params=, :last_paypal_params=
+  def last_paypal_params=(params = nil)
+    orig_last_paypal_params = params.nil? ? nil : p(params)
+  end
+
+  private
+
+    def p(h={}) # see #last_paypal_params=
+      Base64.encode64(Marshal.dump(hc(h)))
+    end
+
+    def hc(h={}) # Marshal.dump doesn't like Hashes with default Procs
+      r = Hash.new; h.each {|k,v| r[k]=v}; r
+    end
 
 end
 
