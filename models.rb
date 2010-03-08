@@ -74,6 +74,7 @@ class PaymentStatus
   property :when,    DateTime
   property :txn_id,  String, :length => 255
 
+  property :last_paypal_params, Text
   property :last_paypal_status, String
 
   before :save do 
@@ -99,6 +100,34 @@ class PaymentStatus
   end
   
   alias_method :paid, :paid?
+
+  def pending?
+    last_paypal_status.eql?("Pending")
+  end
+
+  def paid_or_pending?
+    paid? or pending?
+  end
+
+  def from_paypal(parms = {})
+    params = parms.clone # marshal don't like sinatra params, huh?
+    if params['payment_status'].eql? "Completed"
+      update :paid => true,
+             :when => Time.now,
+             :txn_id => params['txn_id'],
+             :last_paypal_status => params['payment_status'],
+             :last_paypal_params => Base64.encode64(Marshal.dump(params))
+    else
+      update :last_paypal_status => params['payment_status'],
+             :last_paypal_params => Base64.encode64(Marshal.dump(params))
+    end
+
+  end
+
+  alias_method :last_paypal_params, :orig_last_paypal_params
+  def last_paypal_params
+    Marshal.load(Base64.decode64(orig_last_paypal_params))
+  end
 
 end
 

@@ -23,7 +23,7 @@ var validateMoreInfo = function(theForm, result) {
 };
 
 function flipShirtSize(bool) {
-  if (bool) {
+  if (bool || $('shirtRequested').disabled) {
     $('shirtSize').disabled = true;
     $('shirtSizeLabel').style.color = "#aaa";
   } else {

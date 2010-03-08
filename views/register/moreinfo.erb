@@ -68,7 +68,7 @@
               <td>
                 <input type="checkbox" name="user[shirt_requested]" value="true" id="shirtRequested"
                        onchange="flipShirtSize(!this.checked);"
-                       <%= @user.payment_status.paid? ? "disabled" : "" %>
+                       <%= @user.payment_status.paid_or_pending? ? "disabled" : "" %>
                        <%= @user.shirt_requested ? "checked" : "" %>>
               </td>
             </tr>

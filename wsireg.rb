@@ -7,7 +7,6 @@ DataMapper::Logger.new($stdout, :debug)
 DataMapper.setup(:default, 'mysql://wsix@localhost/wsix_dev')
 require 'models'
 
-require 'lib/rfc822'
 require 'md5'
 
 require 'net/http'
@@ -164,18 +163,12 @@ post '/paypal/ipn' do
 
     # check the payment_status of the user in question...
     if user && user.payment_status.paid?
+        return ""
         # TODO wha huh?
     end
 
     # check status 
-    if params['payment_status'].eql? "Completed"
-      user.payment_status.update :paid => true,
-                                 :when => Time.now,
-                                 :txn_id => params['txn_id'],
-                                 :last_paypal_status => params['payment_status']
-    else
-      user.payment_status.update :last_paypal_status => params['payment_status']
-    end
+    user.payment_status.from_paypal(params)
 
   else
     # TODO batsignal!
@@ -184,9 +177,9 @@ post '/paypal/ipn' do
 end
 
 post '/register/status' do
-  user_from_session_id
+  user_from_rsid
   if params.has_key? 'custom' and params.has_key? 'payment_status' and @user.session_id.eql?(params['custom'])
-    @user.payment_status.update :last_paypal_status => params['payment_status']
+    @user.payment_status.from_paypal(params)
     redirect '/register/status'
   else
     redirect '/'
