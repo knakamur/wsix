@@ -123,9 +123,9 @@
           
         <% else %>
 
-          <% unless @user.payment_status.last_paypal_status.blank? %>
+          <% unless @user.payment_status.paypal_status.blank? %>
 
-            <i>paypal says your status is '<%= @user.payment_status.last_paypal_status %>'.</i><br/>
+            <i>paypal says your status is '<%= @user.payment_status.paypal_status %>'.</i><br/>
             <br/>
 
           <% end %>

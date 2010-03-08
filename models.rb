@@ -74,8 +74,7 @@ class PaymentStatus
   property :when,    DateTime
   property :txn_id,  String, :length => 255
 
-  property :last_paypal_params, Text
-  property :last_paypal_status, String
+  property :_paypal_params, Text
 
   before :save do 
     self.updated = Time.now
@@ -100,39 +99,39 @@ class PaymentStatus
   end
   
   def pending?
-    last_paypal_status.eql?("Pending")
+    paypal_status.eql?("Pending")
   end
 
   def paid_or_pending?
     paid? or pending?
   end
 
-  def from_paypal(parms = {})
-    params = parms.clone # marshal don't like sinatra params, huh?
+  def from_paypal(params = {})
     if params['payment_status'].eql? "Completed"
       update :paid => true,
              :when => Time.now,
              :txn_id => params['txn_id'],
-             :last_paypal_status => params['payment_status'],
-             :last_paypal_params => p(params)
+             :_paypal_params => p(params)
     else
-      update :last_paypal_status => params['payment_status'],
-             :last_paypal_params => p(params)
+      update :_paypal_params => p(params)
     end
   end
 
-  alias_method :orig_last_paypal_params, :last_paypal_params
-  def last_paypal_params
-    Marshal.load(Base64.decode64(orig_last_paypal_params))
+  def paypal_status
+    paypal_params['payment_status']
   end
-  alias_method :orig_last_paypal_params=, :last_paypal_params=
-  def last_paypal_params=(params = nil)
-    orig_last_paypal_params = params.nil? ? nil : p(params)
+
+  def paypal_params
+    Marshal.load(Base64.decode64(_paypal_params))
+  end
+
+  def paypal_params=(params = nil)
+    _paypal_params = params.nil? ? nil : p(params)
   end
 
   private
 
-    def p(h={}) # see #last_paypal_params=
+    def p(h={}) # see PaymentStatus#paypal_params=
       Base64.encode64(Marshal.dump(hc(h)))
     end
 
