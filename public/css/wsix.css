@@ -24,7 +24,7 @@ div#main {
 }
 object {
   position: relative;
-  right: 80px;
+  right: 40px;
   padding: 8px;
   border: 1px solid #224;
   background-color: #fff;
@@ -54,4 +54,21 @@ a, a:visited {
   color: #44f;
 }
 a:hover {color: #f44;}
-div#latest_registered {font-size: 12px;}
+div#latest_registered, div#calendar {
+  width: 170px;
+  font-size: 10px;
+  color: #000;
+}
+.translucentRounded {
+  padding: 5px;
+  border: 1px solid #777;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  background-color: #ddd;
+  filter:alpha(opacity=50);
+  -moz-opacity:0.5;
+  -khtml-opacity: 0.5;
+  opacity: 0.5;
+}
+th.schedule {text-align: right;}
+td.schedule {text-align: left;}

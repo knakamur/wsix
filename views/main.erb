@@ -24,13 +24,57 @@ portland, oregon
   <br/>
   <br/>
 
-  <div id="latest_registered">
-    <fieldset><legend>latest registered...</legend>
-      <ul>
-        <% @racers.each do |racer| %>
-          <li><%= racer.name %></li>
+  <div id="latest_registered" class="translucentRounded">
+    <b>latest registered!</b><br/>
+    <br/>
+    <% if @racers.nil? or @racers.length < 1 %>
+      none yet!<br/>
+    <% else %>
+      <% @racers.each do |racer| %>
+        <%= racer.name %><br/>
+      <% end %>
+    <% end %>
+  </div> 
+
+  <br/>
+
+  <div id="calendar" class="translucentRounded">
+    <b>calendar!</b><br/>
+    <br/>
+
+    <% require 'dictionary' %>
+    <% Dictionary[
+         "friday 28th", Dictionary[ "5-7",  "welcome &amp; registration",
+                                    "7-9",  "alleycat of some sort",
+                                    "9-12", "party party party" ],
+
+         "saturday 29th", Dictionary[ "10-12", "coffeecat",
+                                      "12-5",  "group ride &amp; stupid tricks",
+                                      "8-12",  "party &amp; gold sprints" ],
+
+         "sunday 30th", Dictionary[ "12-4", "<b>main race</b>",
+                                    "6-9",  "awards &amp; prizes" ],
+
+         "monday 31st", Dictionary[ "9-5", "polo tournament <b>or</b><br/>" +
+                                           "track racing at <a href=\"http://alpenrose.com/pages/velodrome.html\"" +
+                                           "target=\"_blank\">alpenrose</a>" ]
+       ].each do |k,v| %>
+
+      <div class="schedule">
+        <u><%= k %></u><br/>
+        <table>
+        <% v.each do |time,event| %>
+          <tr>
+            <th class="schedule"><%= time %></th>
+            <td class="schedule"><%= event %></td>
+          </tr>
         <% end %>
-      </ul>
-    </fieldset>
+        </table>
+      </div>
+      <br/>
+
+    <% end %>
+
   </div>
+
 </div>

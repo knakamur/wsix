@@ -39,7 +39,7 @@ end
 
 
 get '/' do
-  @racers = Racer.all(:order => [:id.desc], :name.not => nil) || []
+  @racers = Racer.all(:order => [:id.desc], :name.not => nil, :limit => 5) || []
   erb :main
 end
 
