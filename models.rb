@@ -118,11 +118,11 @@ class PaymentStatus
   end
 
   def paypal_status
-    paypal_params['payment_status']
+    paypal_params.nil? ? nil : paypal_params['payment_status']
   end
 
   def paypal_params
-    Marshal.load(Base64.decode64(_paypal_params))
+    _paypal_params.nil? ? nil : Marshal.load(Base64.decode64(_paypal_params))
   end
 
   def paypal_params=(params = nil)
