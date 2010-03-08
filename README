@@ -1,0 +1,7 @@
+this is a small sinatra/datamapper app to register people for a race.
+
+it allows them to pick:
+ - a racer number
+ - a shirt (and size)
+
+and it allows them to pay via paypal.
