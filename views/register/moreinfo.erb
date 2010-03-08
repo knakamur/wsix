@@ -64,7 +64,10 @@
             </tr>
 
             <tr>
-              <th>do you want a shirt? (+$5) </th>
+              <th id="shirtRequestedLabel"
+                <%= @user.payment_status.paid_or_pending? ? 'class="disabled"' : '' %>>
+                do you want a shirt? (+$5)
+              </th>
               <td>
                 <input type="checkbox" name="user[shirt_requested]" value="true" id="shirtRequested"
                        onchange="flipShirtSize(!this.checked);"
@@ -74,7 +77,10 @@
             </tr>
 
             <tr>
-              <th id="shirtSizeLabel">what size do you want? </th>
+              <th id="shirtSizeLabel"
+                <%= @user.payment_status.paid_or_pending? ? 'class="disabled"' : '' %>>
+                what size do you want?
+              </th>
               <td>
                 <select name="user[shirt_size]" id="shirtSize"
                         <%= @user.payment_status.paid? ? "disabled" : "" %>>

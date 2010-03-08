@@ -82,12 +82,15 @@ end
 put '/register/moreinfo' do
   user_from_rsid
   params[:user].delete_if {|k,v| v.blank?}
-  params[:user][:shirt_requested] ||= 'false' # checkbox
 
-  if params[:user][:shirt_requested] != @user.shirt_requested.to_s
-    @user.payment_status.update :type => "WSIX" + 
-      ((PaymentStatus::EARLY_PAYMENT_END > Date.today) ? "E" : "") +
-      (params[:user][:shirt_requested].eql?(true.to_s) ? "S" : "")
+  unless @user.payment_status.paid_or_pending?
+    params[:user][:shirt_requested] ||= 'false' # checkbox
+
+    if params[:user][:shirt_requested] != @user.shirt_requested.to_s
+      @user.payment_status.update :type => "WSIX" + 
+        ((PaymentStatus::EARLY_PAYMENT_END > Date.today) ? "E" : "") +
+        (params[:user][:shirt_requested].eql?(true.to_s) ? "S" : "")
+    end
   end
 
   if @user.update(params[:user])

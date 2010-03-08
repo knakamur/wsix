@@ -22,7 +22,7 @@ div#registerLogin {
 a.tab {cursor: pointer;}
 a.tab:hover { color: #f44; } /* no href attrs */
 a.active { color: #44f; }
-a.inactive { color: #aaa; }
+a.inactive, th.disabled { color: #aaa; }
 /*table.tab {width: 100%;}*/
 td.tab {text-align: center;}
 td.status {
