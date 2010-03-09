@@ -1,0 +1,48 @@
+<table class="sponsor" cellspacing="20">
+
+  <% @images.each do |row| %>
+    <tr class="sponsor">
+      <% row.each do |src| %>
+        <td class="sponsor">
+          <img class="sponsor" src="<%= src %>">
+        </td>
+      <% end %>
+    </tr>
+  <% end %>
+
+</table>
+
+<div id="register">
+
+  <div id="calendar" class="translucent rounded">
+    <b>past sponsors!</b><br/>
+    <br/>
+
+    here are just <i>some</i> of the wonderful sponsors
+    of west sides past...<br/>
+    <br/>
+
+    if you have sponsored us and we're missing your logo,
+    please <a href="mailto:ken@portlandmessenger.org">let me know</a>.<br/>
+    <br/>
+
+    click <a href="/">here to go back</a>.
+  </div>
+
+</div>
+
+<script type="text/javascript">
+  //<![CDATA[
+  function setSponsorImgSize() {
+    $(document.body).select("img.sponsor").each(function(img) {
+      if (img.width > img.height) {
+        img.width = 75;
+      } else if (img.height > img.width) {
+        img.height = 75;
+      }
+      if (img.height < 30) {img.height = 30;}
+    });
+  }
+  onLoaders.push(function(){ setSponsorImgSize(); });
+  //]]>
+</script>

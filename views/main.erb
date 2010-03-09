@@ -4,7 +4,6 @@ twenty-eight -- thirty-one, may, two thousand ten<br/>
 portland, oregon
 </p>
 
-<!--
 <object width="480" height="270">
   <param name="FlashVars" VALUE="ids=449635@N25&names=West Side Invite VII&userName=kenichi-san&userId=13257516@N08&titles=on&source=groups&titles=off&displayNotes=off&thumbAutoHide=on&imageSize=medium&vAlign=center&displayZoom=off&vertOffset=0&initialScale=off&bgAlpha=30"></param>
   <param name="PictoBrowser" value="http://www.db798.com/pictobrowser.swf"></param>
@@ -12,7 +11,6 @@ portland, oregon
   <param name="bgcolor" value="#000"></param>
   <embed src="http://www.db798.com/pictobrowser.swf" FlashVars="ids=449635@N25&names=West Side Invite VII&userName=kenichi-san&userId=13257516@N08&titles=on&source=groups&titles=off&displayNotes=off&thumbAutoHide=on&imageSize=medium&vAlign=center&displayZoom=off&vertOffset=0&initialScale=off&bgAlpha=30" loop="false" scale="noscale" bgcolor="#000" width="480" height="270" name="PictoBrowser" align="middle"></embed>
 </object>
--->
 
 <div id="register">
   <a href="register/start">
@@ -24,7 +22,7 @@ portland, oregon
   <br/>
   <br/>
 
-  <div id="latest_registered" class="translucent rounded">
+  <div id="latestRegistered" class="translucent rounded">
     <b>latest registered!</b><br/>
     <br/>
     <% if @racers.nil? or @racers.length < 1 %>
@@ -75,6 +73,14 @@ portland, oregon
 
     <% end %>
 
+  </div>
+
+  <br/>
+
+  <div id="sponsorInfo" class="translucent rounded">
+    <b>sponsors!</b><br/>
+    <br/>
+    <a href="/previous_sponsors">some previous sponsors</a><br/>
   </div>
 
 </div>

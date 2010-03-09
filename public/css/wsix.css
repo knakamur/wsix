@@ -54,7 +54,7 @@ a, a:visited {
   color: #44f;
 }
 a:hover {color: #f44;}
-div#latest_registered, div#calendar {
+div#latestRegistered, div#calendar, div#sponsorInfo{
   width: 170px;
   font-size: 10px;
   color: #000;
@@ -65,12 +65,17 @@ div#latest_registered, div#calendar {
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
 }
-.translucentRounded {
+.translucent {
   background-color: #ddd;
-  filter:alpha(opacity=50);
-  -moz-opacity:0.5;
-  -khtml-opacity: 0.5;
-  opacity: 0.5;
+  filter:alpha(opacity=70);
+  -moz-opacity:0.7;
+  -khtml-opacity: 0.7;
+  opacity: 0.7;
 }
 th.schedule {text-align: right;}
 td.schedule {text-align: left;}
+
+table.sponsor {
+  margin-left: 220px;
+  margin-right: 10px;
+}

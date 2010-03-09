@@ -43,6 +43,18 @@ get '/' do
   erb :main
 end
 
+get '/previous_sponsors' do
+  @images = [[]]
+  images = Dir.glob('public/images/sponsors/*').map {|i| i.gsub(/^public\//,'') }
+  images.each_with_index do |img, i|
+    if (i % 5) == 0
+      @images << []
+    end
+    @images[@images.length - 1] << img
+  end
+  erb :'previous_sponsors'
+end
+
 
 get '/register/start' do
   session.clear
