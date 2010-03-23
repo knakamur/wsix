@@ -6,6 +6,7 @@
     theForm.password_hash.value =
       hex_md5(theForm.password.value + theForm.password_salt.value);
     $(theForm.password).remove();
+    $(theForm.password_salt).remove();
     return true;
   }
   //]]>

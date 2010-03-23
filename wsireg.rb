@@ -96,21 +96,25 @@ put '/register/moreinfo' do
   params[:user].delete_if {|k,v| v.blank?}
 
   unless @user.payment_status.paid_or_pending?
-    params[:user][:shirt_requested] ||= 'false' # checkbox
+    params[:user][:shirt_requested] ||= 'false' # checkboxes
+    params[:user][:veggie] ||= 'false'          # 
 
     if params[:user][:shirt_requested] != @user.shirt_requested.to_s
       @user.payment_status.update :type => "WSIX" + 
         ((PaymentStatus::EARLY_PAYMENT_END > Date.today) ? "E" : "") +
         (params[:user][:shirt_requested].eql?(true.to_s) ? "S" : "")
     end
-  end
 
-  if @user.update(params[:user])
-    redirect '/register/status'
-  else
-    @errors = "something went awry...<br/>"
-    erb :'register/moreinfo'
+    if @user.update(params[:user])
+      redirect '/register/status'
+    else
+      @errors = "something went awry...<br/>"
+      erb :'register/moreinfo'
+    end
+
   end
+  # if here something went horribly wrong.  cached page?
+
 end
 
 

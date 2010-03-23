@@ -24,6 +24,7 @@ class Racer
   property :years_worked, Integer
   property :companies,    Text
 
+  property :veggie,           Boolean
   property :number_requested, Integer
   property :paid,             Boolean
 
@@ -82,16 +83,16 @@ class PaymentStatus
 
   @@types = {
     "WSIXE" => {  :description => "WSI X - early registration - no shirt",
-                  :hosted_button_id => "QJAKQZ7NEXQAY",
+                  #:hosted_button_id => "QJAKQZ7NEXQAY",
                   :amount =>      30 },
     "WSIXES" => { :description => "WSI X - early registration - shirt included",
-                  :hosted_button_id => "ELSVY6GSZNCY2",
+                  #:hosted_button_id => "ELSVY6GSZNCY2",
                   :amount =>      35 },
     "WSIX" => {   :description => "WSI X - no shirt",
-                  :hosted_button_id => "T6ADCRQVLR6KU",
+                  #:hosted_button_id => "T6ADCRQVLR6KU",
                   :amount =>      40 },
     "WSIXS" => {  :description => "WSI X - shirt included",
-                  :hosted_button_id => "23G8356YVBSUN",
+                  #:hosted_button_id => "23G8356YVBSUN",
                   :amount =>      45 }
   }
   def self.types
@@ -140,20 +141,3 @@ class PaymentStatus
     end
 
 end
-
-#class DbSession
-#  include DataMapper::Resource
-#
-#  property :_session_id, String, :length => 255, :key => true
-#  property :session_data, Text
-#
-#  alias_method :original_session_data=, :session_data=
-#  alias_method :original_session_data,  :session_data
-#  def session_data=(data)
-#    self.original_session_data = Base64.encode64(Marshal.dump(data))
-#  end
-#  def session_data
-#    Marshal.load(Base64.decode64(self.original_session_data))
-#  end
-#
-#end

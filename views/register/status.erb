@@ -42,6 +42,11 @@
           </tr>
 
           <tr>
+            <th>you prefer: </th>
+            <td><%= @user.veggie ? "salad" : "bacon" %></td>
+          </tr>
+
+          <tr>
             <td colspan="2" style="text-align:center;">
               you <b><%= @user.shirt_requested ? "do" : "don't" %></b> want a shirt.
             </td>
@@ -136,7 +141,7 @@
 
           <% else %>
 
-            <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post"
+            <form action="https://www.paypal.com/cgi-bin/webscr" method="post"
                   onsubmit="return confirm('Once you pay, you won\'t be able to change anything above.  Cool?');">
               <% { "business" =>      "ken@portlandmessenger.org",
                    "currency_code" => "USD",
@@ -147,8 +152,8 @@
                    "custom" =>        @user.session_id,
                    "no_shipping" =>   "1",
                    "cs" =>            "1",
-                   "return" =>        "http://test.westsideinvite.com/register/status",
-                   "cancel_return" => "http://test.westsideinvite.com/register/status" }.each do |k,v| %>
+                   "return" =>        "http://westsideinvite.com/register/status",
+                   "cancel_return" => "http://westsideinvite.com/register/status" }.each do |k,v| %>
 
                 <input type="hidden" name="<%= k %>" value="<%= v %>">
               <% end %>
