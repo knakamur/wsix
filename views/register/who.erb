@@ -1,0 +1,36 @@
+<link rel="stylesheet" href="/css/register.css">
+
+
+<p>so far, here's who's signed up...<br/>
+click <a href="/">here</a> to go back.</p>
+
+<div id="whosregistered" class="translucent rounded">
+  <div id="registerlist">
+    <table width="100%">
+      <tr>
+        <th class="centered">name</th>
+        <th class="centered">number requested</th>
+      </tr>
+
+      <% if @racers.length > 0 %>
+
+        <% @racers.each do |racer| %>
+          <tr>
+            <td class="centered"><%= racer.name %></td>
+            <td class="centered">
+              <% if racer.payment_status.paid %>
+                <%= racer.number_requested %>
+              <% else %>
+                not paid yet...
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+
+      <% else %>
+        <tr><td colspan="2">no one yet... :(</td></tr>
+      <% end %>
+
+    </table>
+  </div>
+</div>

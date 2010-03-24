@@ -208,3 +208,8 @@ post '/register/status' do
     redirect '/'
   end
 end
+
+get '/register/who' do
+  @racers = Racer.all :name.not => nil
+  erb :'register/who'
+end

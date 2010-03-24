@@ -122,7 +122,7 @@
             <table>
               <tr>
                 <th>payment date: </th>
-                <td><%= @user.payment_status.when %></td>
+                <td><%= @user.payment_status.when.strftime("%a %d %b %Y -- %I:%M%p") %></td>
               </tr>
               <tr>
                 <th>paypal transaction id: </th>

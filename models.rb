@@ -142,3 +142,9 @@ class PaymentStatus
     end
 
 end
+
+class Object
+  def dm
+    DataMapper.setup :default, "mysql://wsix@localhost/wsix_dev"
+  end
+end

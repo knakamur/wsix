@@ -30,3 +30,15 @@ td.status {
   font-style: italic;
   font-size: 10px;
 }
+div#whosregistered {
+  position: absolute;
+  width: 496px;
+  height: 250px;
+  right: 40px;
+  padding: 20px;
+}
+div#registerlist {
+  height: 250px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}

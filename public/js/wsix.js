@@ -21,9 +21,9 @@ function setWindowDimensions() {
     _height = document.body.clientHeight;
   }
 }
-function setBgHeight() { $('background').height = _height; }
+function setBgSize() { $('background').height = _height; $('background').width = _width;}
 [onLoaders, onResizers].each(function(list){
-  list.push(function() { setWindowDimensions(); showWindowDimensions(); setBgHeight(); });
+  list.push(function(){ setWindowDimensions(); showWindowDimensions(); setBgSize();});
 });
 
 
