@@ -197,9 +197,13 @@ end
 
 post '/register/status' do
   user_from_rsid
-  if params.has_key? 'custom' and params.has_key? 'payment_status' and @user.session_id.eql?(params['custom'])
-    @user.payment_status.from_paypal(params)
-    redirect '/register/status'
+  if params.has_key? 'custom' and params.has_key? 'payment_status'
+    if (@user ||= Racer.find_by_session_id(params['custom'])) and @user.session_id.eql? params['custom']
+      @user.payment_status.from_paypal(params)
+      redirect '/register/status'
+    else
+      redirect '/'
+    end
   else
     redirect '/'
   end
