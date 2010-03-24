@@ -22,12 +22,9 @@ div#main {
   position: absolute;
   top: 0; left: 0;
 }
-object {
-  position: relative;
+div#pictobrowser {
+  position: absolute;
   right: 40px;
-  padding: 8px;
-  border: 1px solid #224;
-  background-color: #fff;
 }
 div#copy {
   font-size: 10px;
