@@ -112,6 +112,7 @@ class PaymentStatus
       update :paid => true,
              :when => Time.now,
              :txn_id => params['txn_id'],
+             :amount => params['payment_gross'],
              :_paypal_params => p(params)
     else
       update :_paypal_params => p(params)
