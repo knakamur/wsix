@@ -49,18 +49,19 @@ portland, oregon
     
           <% [
 
-            ['raleigh',   'raleigh',          'http://www.raleighusa.com/'],
-            ['dank',      'dank bags',        'http://www.dankbags.net/'],
-            [nil,         'pilderwasser',     'http://www.pilderwasser.com/'],
-            [nil,         'cateye',           'http://www.cateye.com/'],
-            [nil,         'outdoor research', 'http://www.outdoorresearch.com/'],
-            [nil,         'freight baggage',  'http://www.freightbaggage.org/'],
-            [nil,         'team beer',        'http://teambeerpdx.com/'],
-            [nil,         'someday lounge',   'http://www.somedaylounge.com/'],
+            ['raleigh',      'raleigh',          'http://www.raleighusa.com/'],
+            ['dank',         'dank bags',        'http://www.dankbags.net/'],
+            ['or',           'outdoor research', 'http://www.outdoorresearch.com/'],
+            ['cateye',       'cateye',           'http://www.cateye.com/'],
+            ['freight',      'freight baggage',  'http://www.freightbaggage.org/'],
+            ['tcb',          'tcb racks',        'http://www.tcbracks.com/'],
+            ['pilderwasser', 'pilderwasser',     'http://www.pilderwasser.com/'],
+            ['teambeer',     'team beer',        'http://teambeerpdx.com/'],
+            ['someday',      'someday lounge',   'http://www.somedaylounge.com/']
 
           ].each do |sponsor|
           %>
-            <tr>
+            <tr class="sponsor">
 
               <% unless sponsor[0].nil? %>
 
@@ -138,12 +139,15 @@ portland, oregon
 
 <script type="text/javascript">
   //<![CDATA[
+  var rs_needs;
   function setRegisterScrollHeight() {
-    var needs = 645;
-    var visible = .84 * _height;
-    $('register-scroll').style.height = (visible < needs) ? ((visible + 5) + "px") : null;
+    var visible = _height - 100;
+    $('register-scroll').style.height = (visible < rs_needs) ? ((visible - 1) + "px") : null;
   }
-  onLoaders.push(function(){ setRegisterScrollHeight(); });
+  onLoaders.push(function(){
+    setRegisterScrollHeight();
+    rs_needs = $('register-scroll').getHeight();
+  });
   onResizers.push(function(){ setRegisterScrollHeight(); });
   //]]>
 </script>

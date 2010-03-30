@@ -95,6 +95,9 @@ td.sponsor-image {
   text-align: right;
 }
 td.sponsor-text {
-  width: 50%;
   text-align: left;
+  width: 50%;
+}
+tr.sponsor {
+  vertical-align: middle;
 }
