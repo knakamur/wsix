@@ -24,65 +24,134 @@ portland, oregon
   <br/>
   <br/>
 
-  <div id="latestRegistered" class="translucent rounded">
-    <a href="/register/who"><b>latest registered!</b></a><br/>
-    <br/>
-    <% if @racers.nil? or @racers.length < 1 %>
-      none yet!<br/>
-    <% else %>
-      <% @racers.each do |racer| %>
-        <%= racer.name %><br/>
-      <% end %>
-    <% end %>
-  </div> 
+  <div id="register-scroll">
 
-  <br/>
-
-  <div id="calendar" class="translucent rounded">
-    <b>calendar!</b><br/>
-    <br/>
-
-    <% require 'dictionary' %>
-    <% Dictionary[
-         "friday 28th", Dictionary[ "5-7",  "welcome &amp; registration",
-                                    "7-9",  "alleycat of some sort",
-                                    "9-12", "party party party" ],
-
-         "saturday 29th", Dictionary[ "10-12", "coffeecat",
-                                      "12-5",  "group ride &amp; stupid tricks",
-                                      "8-12",  "party &amp; gold sprints" ],
-
-         "sunday 30th", Dictionary[ "12-4", "<b>main race</b>",
-                                    "6-9",  "awards &amp; prizes" ],
-
-         "monday 31st", Dictionary[ "9-5", "polo tournament <b>or</b><br/>" +
-                                           "track racing at <a href=\"http://alpenrose.com/pages/velodrome.html\"" +
-                                           "target=\"_blank\">alpenrose</a>" ]
-       ].each do |k,v| %>
-
-      <div class="schedule">
-        <u><%= k %></u><br/>
-        <table>
-        <% v.each do |time,event| %>
-          <tr>
-            <th class="schedule"><%= time %></th>
-            <td class="schedule"><%= event %></td>
-          </tr>
+    <div id="latestRegistered" class="translucent rounded">
+      <a href="/register/who"><b>latest registered!</b></a><br/>
+      <br/>
+      <% if @racers.nil? or @racers.length < 1 %>
+        none yet!<br/>
+      <% else %>
+        <% @racers.each do |racer| %>
+          <%= racer.name %><br/>
         <% end %>
+      <% end %>
+    </div> 
+  
+    <br/>
+  
+    <div id="calendar" class="translucent rounded">
+      <b>calendar!</b><br/>
+      <br/>
+  
+      <% require 'dictionary' %>
+      <% Dictionary[
+           "friday 28th", Dictionary[ "5-7",  "welcome &amp; registration",
+                                      "7-9",  "alleycat of some sort",
+                                      "9-12", "party party party" ],
+  
+           "saturday 29th", Dictionary[ "10-12", "coffeecat",
+                                        "12-5",  "group ride &amp; stupid tricks",
+                                        "8-12",  "party &amp; gold sprints" ],
+  
+           "sunday 30th", Dictionary[ "12-4", "<b>main race</b>",
+                                      "6-9",  "awards &amp; prizes" ],
+  
+           "monday 31st", Dictionary[ "9-5", "polo tournament <b>or</b><br/>" +
+                                             "track racing at <a href=\"http://alpenrose.com/pages/velodrome.html\"" +
+                                             "target=\"_blank\">alpenrose</a>" ]
+         ].each do |k,v| %>
+  
+        <div class="schedule">
+          <u><%= k %></u><br/>
+          <table>
+          <% v.each do |time,event| %>
+            <tr>
+              <th class="schedule"><%= time %></th>
+              <td class="schedule"><%= event %></td>
+            </tr>
+          <% end %>
+          </table>
+        </div>
+        <br/>
+  
+      <% end %>
+  
+    </div>
+  
+    <br/>
+  
+    <div id="sponsorInfo" class="translucent rounded">
+      <b>sponsors!</b><br/>
+      <br/>
+      
+      <div id="sponsor-list">
+        <table class="sponsor">
+    
+          <% [
+
+            ['raleigh',   'raleigh',          'http://www.raleighusa.com/'],
+            ['dank',      'dank bags',        'http://www.dankbags.net/'],
+            [nil,         'pilderwasser',     'http://www.pilderwasser.com/'],
+            [nil,         'cateye',           'http://www.cateye.com/'],
+            [nil,         'outdoor research', 'http://www.outdoorresearch.com/'],
+            [nil,         'freight baggage',  'http://www.freightbaggage.org/'],
+            [nil,         'team beer',        'http://teambeerpdx.com/'],
+            [nil,         'someday lounge',   'http://www.somedaylounge.com/'],
+
+          ].each do |sponsor|
+          %>
+            <tr>
+
+              <% unless sponsor[0].nil? %>
+
+                <td class="sponsor-image">
+                  <a href="<%= sponsor[2] %>" target="_blank"><img src="/images/sponsors/<%= sponsor[0] %>.png"></a>
+                </td>
+                <td class="sponsor-text">
+                  <a href="<%= sponsor[2] %>" target="_blank"><%= sponsor[1] %></a>
+                </td>
+
+              <% else %>
+
+                <td colspan="2">
+                  <a href="<%= sponsor[2] %>" target="_blank"><%= sponsor[1] %></a>
+                </td>
+
+              <% end %>
+
+            </tr>
+          <% end %>
+  
+          <tr><td colspan="2">---</td></tr>
+          <tr><td colspan="2"><a href="/previous_sponsors">past sponsors</a></td></tr>
+    
         </table>
       </div>
+      
       <br/>
+    </div>
 
-    <% end %>
-
-  </div>
-
-  <br/>
-
-  <div id="sponsorInfo" class="translucent rounded">
-    <b>sponsors!</b><br/>
-    <br/>
-    <a href="/previous_sponsors">some previous sponsors</a><br/>
   </div>
 
 </div>
+
+<script type="text/javascript">
+  //<![CDATA[
+  function setSponsorListHeight() {
+    var max = 75;
+    if ($('sponsor-list').getHeight() > max) {
+      $('sponsor-list').style.height = max + "px";
+    }
+  }
+  function setRegisterScrollHeight() {
+    var needs = 600;
+    var visible = .8 * _height;
+    if (visible < needs) {
+      $('register-scroll').style.height = (visible - 10) + "px";
+    }
+  }
+  onLoaders.push(function(){ setSponsorListHeight(); setRegisterScrollHeight(); });
+  onResizers.push(function(){ setRegisterScrollHeight(); });
+  //]]>
+</script>

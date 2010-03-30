@@ -44,9 +44,10 @@ div#register {
   width: 200px;
   text-align: center;
   position: absolute;
-  height: 99%;
   top: 25px;
   left: 25px;
+}
+div#register-scroll {
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -56,7 +57,7 @@ a, a:visited {
   color: #44f;
 }
 a:hover {color: #f44;}
-div#latestRegistered, div#calendar, div#sponsorInfo{
+div#latestRegistered, div#calendar, div#sponsorInfo, div#sponsor-list{
   width: 170px;
   font-size: 10px;
   color: #000;
@@ -78,7 +79,22 @@ div#latestRegistered, div#calendar, div#sponsorInfo{
 th.schedule {text-align: right;}
 td.schedule {text-align: left;}
 
-table.sponsor {
+table.oldsponsor {
   margin-left: 220px;
   margin-right: 10px;
+}
+
+div#sponsor-list {
+  overflow-y: auto;
+}
+table.sponsor {
+  width: 100%;
+}
+td.sponsor-image {
+  width: 50%;
+  text-align: right;
+}
+td.sponsor-text {
+  width: 50%;
+  text-align: left;
 }

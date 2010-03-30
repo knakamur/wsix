@@ -45,7 +45,7 @@ end
 
 get '/previous_sponsors' do
   @images = [[]]
-  images = Dir.glob('public/images/sponsors/*').map {|i| i.gsub(/^public\//,'') }
+  images = Dir.glob('public/images/sponsors/old/*').map {|i| i.gsub(/^public\//,'') }
   images.each_with_index do |img, i|
     if (i % 5) == 0
       @images << []
