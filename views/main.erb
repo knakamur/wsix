@@ -40,47 +40,6 @@ portland, oregon
   
     <br/>
   
-    <div id="calendar" class="translucent rounded">
-      <b>calendar!</b><br/>
-      <br/>
-  
-      <% require 'dictionary' %>
-      <% Dictionary[
-           "friday 28th", Dictionary[ "5-7",  "welcome &amp; registration",
-                                      "7-9",  "alleycat of some sort",
-                                      "9-12", "party party party" ],
-  
-           "saturday 29th", Dictionary[ "10-12", "coffeecat",
-                                        "12-5",  "group ride &amp; stupid tricks",
-                                        "8-12",  "party &amp; gold sprints" ],
-  
-           "sunday 30th", Dictionary[ "12-4", "<b>main race</b>",
-                                      "6-9",  "awards &amp; prizes" ],
-  
-           "monday 31st", Dictionary[ "9-5", "polo tournament <b>or</b><br/>" +
-                                             "track racing at <a href=\"http://alpenrose.com/pages/velodrome.html\"" +
-                                             "target=\"_blank\">alpenrose</a>" ]
-         ].each do |k,v| %>
-  
-        <div class="schedule">
-          <u><%= k %></u><br/>
-          <table>
-          <% v.each do |time,event| %>
-            <tr>
-              <th class="schedule"><%= time %></th>
-              <td class="schedule"><%= event %></td>
-            </tr>
-          <% end %>
-          </table>
-        </div>
-        <br/>
-  
-      <% end %>
-  
-    </div>
-  
-    <br/>
-  
     <div id="sponsorInfo" class="translucent rounded">
       <b>sponsors!</b><br/>
       <br/>
@@ -132,26 +91,59 @@ portland, oregon
       <br/>
     </div>
 
+    <br/>
+  
+    <div id="calendar" class="translucent rounded">
+      <b>calendar!</b><br/>
+      <br/>
+  
+      <% require 'dictionary' %>
+      <% Dictionary[
+           "friday 28th", Dictionary[ "5-7",  "welcome &amp; registration",
+                                      "7-9",  "alleycat of some sort",
+                                      "9-12", "party party party" ],
+  
+           "saturday 29th", Dictionary[ "10-12", "coffeecat",
+                                        "12-5",  "group ride &amp; stupid tricks",
+                                        "8-12",  "party &amp; gold sprints" ],
+  
+           "sunday 30th", Dictionary[ "12-4", "<b>main race</b>",
+                                      "6-9",  "awards &amp; prizes" ],
+  
+           "monday 31st", Dictionary[ "9-5", "polo tournament <b>or</b><br/>" +
+                                             "track racing at <a href=\"http://alpenrose.com/pages/velodrome.html\"" +
+                                             "target=\"_blank\">alpenrose</a>" ]
+         ].each do |k,v| %>
+  
+        <div class="schedule">
+          <u><%= k %></u><br/>
+          <table>
+          <% v.each do |time,event| %>
+            <tr>
+              <th class="schedule"><%= time %></th>
+              <td class="schedule"><%= event %></td>
+            </tr>
+          <% end %>
+          </table>
+        </div>
+        <br/>
+  
+      <% end %>
+  
+    </div>
+  
   </div>
 
 </div>
 
 <script type="text/javascript">
   //<![CDATA[
-  function setSponsorListHeight() {
-    var max = 75;
-    if ($('sponsor-list').getHeight() > max) {
-      $('sponsor-list').style.height = max + "px";
-    }
-  }
   function setRegisterScrollHeight() {
-    var needs = 600;
-    var visible = .8 * _height;
-    if (visible < needs) {
-      $('register-scroll').style.height = (visible - 10) + "px";
-    }
+    var needs = 645;
+    var visible = .84 * _height;
+    $('register-scroll').style.height = (visible < needs) ? ((visible + 5) + "px") : null;
   }
-  onLoaders.push(function(){ setSponsorListHeight(); setRegisterScrollHeight(); });
+  onLoaders.push(function(){ setRegisterScrollHeight(); });
   onResizers.push(function(){ setRegisterScrollHeight(); });
   //]]>
 </script>
