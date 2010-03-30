@@ -145,8 +145,8 @@ portland, oregon
     $('register-scroll').style.height = (visible < rs_needs) ? ((visible - 1) + "px") : null;
   }
   onLoaders.push(function(){
-    setRegisterScrollHeight();
     rs_needs = $('register-scroll').getHeight();
+    setRegisterScrollHeight();
   });
   onResizers.push(function(){ setRegisterScrollHeight(); });
   //]]>

@@ -91,12 +91,11 @@ table.sponsor {
   width: 100%;
 }
 td.sponsor-image {
-  width: 50%;
+  width: 62px;
   text-align: right;
 }
 td.sponsor-text {
   text-align: left;
-  width: 50%;
 }
 tr.sponsor {
   vertical-align: middle;
