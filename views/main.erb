@@ -99,17 +99,18 @@ portland, oregon
       <br/>
   
       <% require 'dictionary' %>
+      <% bside_url = "http://maps.google.com/maps/place?rls=en&oe=UTF-8&um=1&ie=UTF-8&q=b+side+portland&fb=1&gl=us&hq=b+side&hnear=portland&cid=10996884066278422021" %>
       <% Dictionary[
-           "friday 28th", Dictionary[ "5-7",  "welcome &amp; registration",
-                                      "7-9",  "alleycat of some sort",
-                                      "9-12", "party party party" ],
+           "friday 28th", Dictionary[ "5-8", "welcome &amp; registration<br/>@ <a href='http://www.ashstsaloon.com/' target='_blank'>ash st. saloon</a>",
+                                      "8-12", "party party party &amp;<br/>late reg @ <a href='#{bside_url}' target='_blank'>b-side tavern</a>",
+                                      "12-",  "midnight alleycat!" ],
   
            "saturday 29th", Dictionary[ "10-12", "coffeecat",
                                         "12-5",  "group ride &amp; stupid tricks",
-                                        "8-12",  "party &amp; gold sprints" ],
+                                        "8-12",  "party &amp; gold sprints<br/>@ <a href='http://migrationbrewing.com/' target='_blank'>migration</a>" ],
   
            "sunday 30th", Dictionary[ "12-4", "<b>main race</b>",
-                                      "6-9",  "awards &amp; prizes" ],
+                                      "6-9",  "awards &amp; prizes<br/>@ <a href='http://www.somedaylounge.com/' target='_blank'>someday lounge</a>" ],
   
            "monday 31st", Dictionary[ "9-5", "polo tournament <b>or</b><br/>" +
                                              "track racing at <a href=\"http://alpenrose.com/pages/velodrome.html\"" +
