@@ -3,8 +3,9 @@
 require 'rubygems'
 require 'sinatra'
 require 'dm-core'
+require 'dm-aggregates'
 DataMapper::Logger.new($stdout, :debug)
-DataMapper.setup(:default, 'mysql://wsix@localhost/wsix_dev')
+DataMapper.setup(:default, 'mysql://wsix:k1ckb4ll@localhost/wsix')
 require 'models'
 
 require 'md5'
@@ -14,7 +15,8 @@ require 'uri'
 require 'base64'
 
 enable :sessions
-
+set :environment, :production
+set :show_exceptions, false
 
 before do
   @bg = (rand * 8).round
@@ -40,6 +42,7 @@ end
 
 get '/' do
   @racers = Racer.all(:order => [:id.desc], :name.not => nil, :limit => 5) || []
+  @count = Racer.count(:name.not => nil) - 5
   erb :main
 end
 

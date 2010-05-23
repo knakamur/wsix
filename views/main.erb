@@ -14,6 +14,12 @@ portland, oregon
   </object>
 </div>
 
+<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+<p><b>news-ish things</b><br/>
+if you need housing info, contact <a href="mailto:pumaskidmore@gmail.com">nerf</a>!<br/>
+for the awesome, head over to <a href="http://www.therepublicofdoom.blogspot.com/" target="_blank">dr doom's blog</a>!<br/>
+</p>
+
 <div id="register">
   <a href="register/start">
     <img src="images/star.png" height="20">
@@ -35,6 +41,7 @@ portland, oregon
         <% @racers.each do |racer| %>
           <%= racer.name %><br/>
         <% end %>
+        and <%= @count %> more...
       <% end %>
     </div> 
   
@@ -50,6 +57,7 @@ portland, oregon
           <% [
 
             ['raleigh',      'raleigh',          'http://www.raleighusa.com/'],
+            ['thompson',     'thompson',         'http://www.lhthomson.com/bikes.htm'],
             ['dank',         'dank bags',        'http://www.dankbags.net/'],
             ['or',           'outdoor research', 'http://www.outdoorresearch.com/'],
             ['cateye',       'cateye',           'http://www.cateye.com/'],
@@ -63,7 +71,11 @@ portland, oregon
             ['heart',        'heart roasters',   'http://www.heartroasters.com/'],
             ['chrisking',    'chris king',       'http://www.chrisking.com/'],
             ['iraryan',      'ira ryan',         'http://iraryancycles.com/'],
-            [nil,            'r.e.load bags',    'http://www.reloadbags.com/']
+            ['reload',       'r.e.load bags',    'http://www.reloadbags.com/'],
+            ['guardian',     'gaurdian games',   'http://www.guardiangamesportland.com'],
+            ['blackstar',    'black star bags',  'http://blackstarbags.wordpress.com'],
+            ['cetma',        'cetma cargo',      'http://cetmacargo.com'],
+            ['stanley',      'stanley bottles',  'http://www.stanley-pmi.com']
 
           ].each do |sponsor|
           %>
@@ -108,8 +120,8 @@ portland, oregon
       <% bside_url = "http://maps.google.com/maps/place?rls=en&oe=UTF-8&um=1&ie=UTF-8&q=b+side+portland&fb=1&gl=us&hq=b+side&hnear=portland&cid=10996884066278422021" %>
       <% Dictionary[
            "friday 28th", Dictionary[ "5-8", "welcome &amp; registration<br/>@ <a href='http://www.ashstsaloon.com/' target='_blank'>ash st. saloon</a>",
-                                      "8-12", "party party party &amp;<br/>late reg @ <a href='#{bside_url}' target='_blank'>b-side tavern</a>",
-                                      "12-",  "midnight alleycat!" ],
+                                      "8-10",  "D&D alleycat!",
+                                      "10-12", "party party party &amp;<br/>late reg @ <a href='#{bside_url}' target='_blank'>b-side tavern</a>"],
   
            "saturday 29th", Dictionary[ "10-12", "coffeecat",
                                         "12-5",  "group ride &amp; stupid tricks",

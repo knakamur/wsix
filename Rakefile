@@ -3,7 +3,7 @@ require 'dm-core'
 require 'models'
 
 DataMapper::Logger.new($stdout, :debug)
-DataMapper.setup(:default, 'mysql://wsix@localhost/wsix_dev')
+DataMapper.setup(:default, 'mysql://wsix:k1ckb4ll@localhost/wsix')
 
 desc "auto migrates datamapper tables."
 task :dmau do
