@@ -5,7 +5,7 @@ require 'sinatra'
 require 'dm-core'
 require 'dm-aggregates'
 DataMapper::Logger.new($stdout, :debug)
-DataMapper.setup(:default, 'mysql://wsix:k1ckb4ll@localhost/wsix')
+DataMapper.setup(:default, 'mysql://root@localhost/wsix')
 require 'models'
 
 require 'md5'
@@ -100,10 +100,10 @@ put '/register/moreinfo' do
 
   unless @user.payment_status.paid_or_pending?
     params[:user][:shirt_requested] ||= 'false' # checkboxes
-    params[:user][:veggie] ||= 'false'          # 
+    params[:user][:veggie] ||= 'false'          #
 
     if params[:user][:shirt_requested] != @user.shirt_requested.to_s
-      @user.payment_status.update :type => "WSIX" + 
+      @user.payment_status.update :type => "WSIX" +
         ((PaymentStatus::EARLY_PAYMENT_END > Date.today) ? "E" : "") +
         (params[:user][:shirt_requested].eql?(true.to_s) ? "S" : "")
     end
@@ -149,7 +149,7 @@ post '/register/login' do
   if params[:password_hash].eql? @racer.password_hash
     session_rsid @racer
 
-    if !(@user.payment_status.paid_or_pending?) and Racer.fieldmap.values.detect {|prop| @user.send(prop).nil?} 
+    if !(@user.payment_status.paid_or_pending?) and Racer.fieldmap.values.detect {|prop| @user.send(prop).nil?}
       erb :'register/moreinfo'
     else
       erb :'register/status'
@@ -175,12 +175,12 @@ post '/paypal/ipn' do
 
   # if they say it's cool...
   if res.body.strip.eql? "VERIFIED"
-    
+
     # check the txn_id to see if it's happened before...
     if PaymentStatus.first(:txn_id => params['txn_id'])
       # TODO batsignal!
     end
-    
+
     user = Racer.find_by_session_id(params['custom'])
 
     # check the payment_status of the user in question...
@@ -189,7 +189,7 @@ post '/paypal/ipn' do
         # TODO wha huh?
     end
 
-    # check status 
+    # check status
     user.payment_status.from_paypal(params)
 
   else
